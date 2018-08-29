@@ -1,13 +1,15 @@
 <template>
-  <div class="booth">
+  <div class="container">
     <div class="row">
-      <div class="col-md-2">
-        <video ref="video" id="video" muted="true" autoplay></video>
-        <button id="snap" class="btn btn-secondary" @click="takeSnapshot()">Snap Photo</button>
+      <div class="col-sm-12">
+        <video ref="webcam" height="360" width="500" id="webcam" style="display: none">
+        </video>
+        <canvas id="c" width="640" height="480"></canvas>
       </div>
     </div>
-    <div class="col-md-12">
-      <canvas ref="canvas" id="canvas" width="500" height="500" hidden></canvas>
+    <!-- TODO fix this alignment -->
+    <div class="float-right">
+      <button @click="takeSnapshot()" class="btn btn-primary active flot-sm-right">I am looking good!</button>
     </div>
   </div>
 </template>
@@ -15,36 +17,72 @@
 <script>
 import { eventBus } from "@/main";
 
+import { fabric } from "fabric";
+
 export default {
-  data: () => {
+  data() {
     return {
-      video: "",
-      snapshot: "",
-      canvas: ""
+      canvas: {},
+      webcam: {},
+      snapshot: ""
     };
   },
   methods: {
     takeSnapshot() {
-      this.canvas = this.$refs.canvas;
-      const context = this.canvas
-        .getContext("2d")
-        .drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
-      this.snapshot = this.canvas.toDataURL("image/png");
-      eventBus.snapshot(this.snapshot);
+      this.snapshot = this.canvas.toDataURL({
+        format: "png"
+      });
+      eventBus.previewSnapshot(this.snapshot);
+    },
+    getUserMedia() {
+      var userMediaFunc =
+        navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia;
+      if (userMediaFunc) userMediaFunc.apply(navigator, arguments);
+    },
+    renderWebcam() {
+      var vm = this;
+      fabric.util.requestAnimFrame(function render() {
+        vm.canvas.renderAll();
+        fabric.util.requestAnimFrame(render);
+      });
     }
   },
   mounted() {
-    this.video = this.$refs.video;
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
-        this.video.srcObject = stream;
-        this.video.play();
-      });
-    }
+    this.canvas = new fabric.Canvas("c");
+    var webcamEl = this.$refs.webcam;
+    //console.log('webcam el', webcam);
+    this.webcam = new fabric.Image(webcamEl, {
+      left: 300,
+      top: 200,
+      angle: 360,
+      originX: "center",
+      originY: "center"
+    });
+    // adding webcam video element
+    var vm = this;
+    this.getUserMedia(
+      { video: true },
+      function getWebcamAllowed(stream) {
+        webcamEl.srcObject = stream;
+        vm.canvas.add(vm.webcam);
+        vm.webcam.moveTo(0); // move webcam element to back of zIndex stack
+        vm.webcam.getElement().play();
+      },
+      function getWebcamNotAllowed(e) {
+        // block will be hit if user selects "no" for browser "allow webcam access" prompt
+      }
+    );
+    this.renderWebcam();
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+.booth {
+  padding: 10px;
+}
 </style>

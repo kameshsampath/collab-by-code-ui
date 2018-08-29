@@ -1,10 +1,8 @@
 <template>
   <div class="quiz">
     <div class="container">
-      <keep-alive>
-        <component :is="currComponent">
-        </component>
-      </keep-alive>
+      <component :is="selectedComponent" :snapshotData="snapshotData">
+      </component>
     </div>
   </div>
 </template>
@@ -18,18 +16,17 @@ import photoBooth from "@/components/photo/PhotoBooth.vue";
 import quiz from "@/components/quiz/Quiz.vue";
 
 export default {
-  data: () => {
-    return {
-      currComponent: "photoBooth"
-    };
+  data() {
+    return { selectedComponent: "photoBooth", snapshotData: "" };
   },
   components: {
     photoBooth,
     quiz
   },
   mounted() {
-    eventBus.$on("changeComponent", data => {
-      this.currComponent = "quiz";
+    eventBus.$on("changeComponent", snapshotData => {
+      this.snapshotData = snapshotData;
+      this.selectedComponent = "quiz";
     });
   }
 };

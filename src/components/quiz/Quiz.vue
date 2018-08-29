@@ -1,22 +1,21 @@
 <template>
   <div class="quiz .container-fluid">
     <div class="row">
-      <div class="col-lg-8">
-        <h3>Preview here </h3>
-        <!-- <photo-preview></photo-preview> -->
+      <div class="col-md-8">
+        <photo-preview :snapshotData="snapshotData"></photo-preview>
       </div>
     </div>
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <question-options :questions="questions" />
+    <div class="row">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <question-options :questions="questions" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { eventBus } from "@/main";
-
 // API
 import { getQuestions } from "@/utils/apiUtils";
 
@@ -25,10 +24,12 @@ import questionOptions from "./QuestionOptions.vue";
 import photoPreview from "@/components/photo/PhotoPreview.vue";
 
 export default {
+  props: ["snapshotData"],
   data: function() {
     return {
       questions: [],
-      nextIdx: 0
+      nextIdx: 0,
+      imageData: null
     };
   },
   components: {

@@ -1,39 +1,20 @@
 <template>
-  <div class="preview">
-    <img :src="imageData" height="auto" width="auto" />
+  <div class="row">
+    <div class="col">
+      <svg id="preview" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="640" height="480">
+        <image :xlink:href="snapshotData" />
+      </svg>
+    </div>
   </div>
 </template>
 
 <script>
-// Vue
-import { eventBus } from "@/main";
-
 export default {
-  data: () => {
-    return {
-      imageData: ""
-    };
-  },
-  methods: {
-    previewSnapshot() {
-      eventBus.$on("snapshotTaken", snapshotImg => {
-        console.log("Preview Snapshot");
-        this.imageData = snapshotImg;
-      });
-    }
-  },
-  created() {
-    this.previewSnapshot();
-  },
-  activated() {
-    this.previewSnapshot();
-  }
+  props: ["snapshotData"]
 };
 </script>
-
-
-<style scoped>
+<style>
 .preview {
-  border: 1px solid goldenrod;
+  border: 1px solid darkred;
 }
 </style>

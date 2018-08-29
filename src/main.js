@@ -6,9 +6,8 @@ Vue.config.productionTip = false;
 
 export const eventBus = new Vue({
   methods: {
-    snapshot(snapshotImg) {
-      this.$emit("changeComponent");
-      this.$emit("snapshotTaken", snapshotImg);
+    previewSnapshot(snapshotImg) {
+      this.$emit("changeComponent", snapshotImg);
     }
   }
 });
