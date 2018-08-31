@@ -1,44 +1,64 @@
 <template>
   <div id="app">
-    <nav id="nav" class="navbar navbar-expand-md navbar-light fixed-top bg-light">
-      <a class="navbar-brand" href="/">Collaborate by Code</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsDefault" aria-controls="navbarsDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarsDefault">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <router-link to="/">
-              <span class="p-2">Home</span>
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/quiz">
-              <span class="p-2">Quiz</span>
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/canvas">
-              <span class="p-2">Canvas</span>
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/about">
-              <span class="p-2">About</span>
-            </router-link>
-          </li>
-        </ul>
-      </div>
-    </nav>
-    <main role="main">
+    <header>
+      <nav id="nav" class="navbar navbar-expand-md navbar-light fixed-top bg-light">
+        <a class="navbar-brand" href="/">Collaborate by Code</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsDefault" aria-controls="navbarsDefault" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarsDefault">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <router-link to="/">
+                <span class="p-2">Home</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/quiz">
+                <span class="p-2">Quiz</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/canvas">
+                <span class="p-2">Canvas</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/about">
+                <span class="p-2">About</span>
+              </router-link>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <main role="main" class="container">
       <router-view/>
     </main>
-    <!-- TODO footer -->
+    <appFooter/>
   </div>
 </template>
 
+<script>
+import appFooter from "@/components/Footer";
+
+export default {
+  // mounted() {
+  //   console.log(process.env);
+  // }
+  components: {
+    appFooter
+  }
+};
+</script>
+
 
 <style lang="scss">
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 body {
   padding-top: 3.5rem;
 }
@@ -46,7 +66,8 @@ body {
 body {
   font-size: 16px;
   line-height: 1.5;
-  font-family: "Avenir", sans-serif;
+  font-family: "Overpass", sans-serif;
+  margin-bottom: 60px;
 }
 
 .textBlack {

@@ -30,7 +30,8 @@ export default {
   methods: {
     takeSnapshot() {
       this.snapshot = this.canvas.toDataURL({
-        format: "png"
+        format: "png",
+        multiplier: 1
       });
       eventBus.previewSnapshot(this.snapshot);
     },

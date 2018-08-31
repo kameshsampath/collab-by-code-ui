@@ -6,8 +6,8 @@
           <span ref="question">{{questions[nextIdx].question}}</span>
         </div>
         <div class="form-check quiz-question-opt">
-          <div v-for="opt in questions[nextIdx].options" v-bind:key="opt.text">
-            <input type="radio" :id="computedId(opt.index)" class="form-check-input" :value="opt.index" v-model="userChoice" />
+          <div v-for="(opt) in questions[nextIdx].options" v-bind:key="opt.text">
+            <input type="radio" :id="computedId(opt.index)" class="form-check-input" :value="opt.index" v-model="userChoice" @change="applyFilter()" />
             <label class="form-check-label quiz-question-opt-label" for="question" :data-question="opt.text">
               {{opt.text}}
             </label>
@@ -31,11 +31,12 @@
 
 <script>
 import { eventBus } from "@/main";
+import * as _ from "lodash";
 
 import { saveUserResponse } from "@/utils/apiUtils";
 
 export default {
-  props: ["questions"],
+  props: ["questions", "snapshotData"],
   data: () => {
     return {
       nextIdx: 0,
@@ -48,6 +49,14 @@ export default {
     computedId(id) {
       return `question-${id}`;
     },
+    applyFilter() {
+      let currQ = this.questions[this.nextIdx];
+      //console.log(this.userChoice);
+      //console.log(JSON.stringify(currQ));
+      let selectedOpt = _.find(currQ.options, { index: this.userChoice });
+      console.log("Selected Frame ", selectedOpt.frame);
+      eventBus.photoFilter(selectedOpt.frame, this.nextIdx);
+    },
     addToAnswered() {
       this.questionAndAnswers[this.nextIdx] = {
         question: this.questions[this.nextIdx].question,
@@ -56,8 +65,17 @@ export default {
     },
     finish() {
       this.addToAnswered();
+      var selectedOpts = _.map(this.questionAndAnswers, "userChoice").join("");
+      var selectedFrames = _.map(this.questionAndAnswers, "frame").join("");
       //TODO add user details to the save
-      saveUserResponse(this.questionAndAnswers)
+      var userResponse = {
+        userDetails: {},
+        img: this.snapshotData,
+        userResponses: this.questionAndAnswers,
+        selectedFrames: selectedFrames,
+        selectedOptions: selectedOpts
+      };
+      saveUserResponse(userResponse)
         .then(success => {
           console.log(success);
           this.$router.replace("/");

@@ -1,14 +1,14 @@
 <template>
   <div class="quiz .container-fluid">
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-sm">
         <photo-preview :snapshotData="snapshotData"></photo-preview>
       </div>
-    </div>
-    <div class="row">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <question-options :questions="questions" />
+      <div class="col-sm">
+        <div class="qpanel panel panel-default">
+          <div class="panel-body">
+            <question-options :questions="questions" />
+          </div>
         </div>
       </div>
     </div>
@@ -24,7 +24,12 @@ import questionOptions from "./QuestionOptions.vue";
 import photoPreview from "@/components/photo/PhotoPreview.vue";
 
 export default {
-  props: ["snapshotData"],
+  props: {
+    snapshotData: {
+      type: String,
+      required: true
+    }
+  },
   data: function() {
     return {
       questions: [],
@@ -53,5 +58,8 @@ export default {
 }
 #preview {
   border: 2px black;
+}
+.qpanel {
+  padding: 20px;
 }
 </style>

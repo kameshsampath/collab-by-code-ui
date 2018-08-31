@@ -7,7 +7,11 @@ Vue.config.productionTip = false;
 export const eventBus = new Vue({
   methods: {
     previewSnapshot(snapshotImg) {
+      //console.log(snapshotImg);
       this.$emit("changeComponent", snapshotImg);
+    },
+    photoFilter(frame, nextIdx) {
+      this.$emit("photoFilter", frame, nextIdx);
     }
   }
 });

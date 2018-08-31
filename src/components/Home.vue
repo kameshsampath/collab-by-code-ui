@@ -1,16 +1,12 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h3 class="body_title textBlack">{{msg}}</h3>
-        <p class="body_content textBlack">
-          Each of your answers to the following questions will generate a fragment of code, which will produce an object unique to you. Click tweet to watch your object get added to our collaborative canvas!
-        </p>
-        <p>
-          <router-link to="/quiz" class="btn btn-secondary" tag="button">Get started</router-link>
-        </p>
-      </div>
-    </div>
+  <div>
+    <h3 class="body_title textBlack">{{msg}}</h3>
+    <p class="lead body_content textBlack">
+      Each of your answers to the following questions will generate a fragment of code, which will produce an object unique to you. Click tweet to watch your object get added to our collaborative canvas!
+    </p>
+    <p>
+      <router-link to="/quiz" class="btn btn-secondary" tag="button">Get started</router-link>
+    </p>
   </div>
 </template>
 

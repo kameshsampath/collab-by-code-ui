@@ -9,9 +9,10 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "caman": "^4.1.2",
+    "dotenv": "^6.0.0",
     "fabric": "^2.3.6",
     "lodash": "^4.17.10",
-    "svg.js": "^2.6.5",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1"
   },
