@@ -50,7 +50,7 @@ export default {
       //console.log("To be applied frame :", JSON.stringify(f));
       fabric.Image.fromURL(`/frames/${f.filename}`, img => {
         img.set(f.settings).scaleToWidth(f.scaleWidth);
-        console.log("Layer Index :", vm.layerIndex);
+        //console.log("Layer Index :", vm.layerIndex);
         const currLayerImg = vm.canvas.getObjects()[vm.layerIndex];
         if (currLayerImg) {
           vm.canvas.remove(currLayerImg);
@@ -78,6 +78,12 @@ export default {
         .scaleToHeight(this.imgScaleHeight);
       vm.canvas.add(img);
       vm.canvas.renderAll();
+    });
+
+    //Routing to Collaborate page
+    eventBus.$on("collaborate", userResponse => {
+      userResponse["avatar"] = this.canvas.toDataURL({ format: "png" });
+      this.$router.push({ name: "collaborate", params: { userResponse } });
     });
   }
 };

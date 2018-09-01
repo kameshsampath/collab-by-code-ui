@@ -1,9 +1,10 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
+import Home from "@/views/Home.vue";
 
-import QuizView from "./views/QuizView.vue";
-import Canvas from "./views/Canvas.vue";
+import QuizView from "@/views/QuizView.vue";
+import Canvas from "@/views/Canvas.vue";
+import Collaborate from "@/views/Collaborate.vue";
 
 Vue.use(Router);
 
@@ -15,14 +16,20 @@ export default new Router({
       component: Home
     },
     {
-      path: "/quiz",
-      name: "quiz",
-      component: QuizView
-    },
-    {
       path: "/canvas",
       name: "canvas",
       component: Canvas
+    },
+    {
+      path: "/collaborate",
+      name: "collaborate",
+      component: Collaborate,
+      props: true
+    },
+    {
+      path: "/quiz",
+      name: "quiz",
+      component: QuizView
     },
     {
       path: "/about",

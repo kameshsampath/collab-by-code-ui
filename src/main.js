@@ -12,6 +12,10 @@ export const eventBus = new Vue({
     },
     photoFilter(frame, nextIdx) {
       this.$emit("photoFilter", frame, nextIdx);
+    },
+    collaborate(userResponse) {
+      //console.log("", userResponse);
+      this.$emit("collaborate", userResponse);
     }
   }
 });

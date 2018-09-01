@@ -36,17 +36,17 @@ export async function getFrame(id) {
   }
 }
 
-export async function saveUserResponse(userResponse) {
-  console.log("Saving...");
-  //TODO call to API to save the user response
-  //Need to get the userEmail and Twitter handle
-  return new Promise((resolve, reject) => {
-    try {
-      console.log("Saving User Response", JSON.stringify(userResponse));
-      resolve("saved");
-    } catch (error) {
-      //console.error(error);
-      reject(error);
-    }
-  });
+export async function saveUserResponse(fromData) {
+  console.log("Saving user data");
+  try {
+    const res = await axios.post(
+      "http://localhost:3000/api/collaborators",
+      fromData,
+      { headers: { "Content-Type": "multipart/form-data" } }
+    );
+    console.log("Success ::", res);
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 }

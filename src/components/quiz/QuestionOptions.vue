@@ -33,8 +33,6 @@
 import { eventBus } from "@/main";
 import * as _ from "lodash";
 
-import { saveUserResponse } from "@/utils/apiUtils";
-
 export default {
   props: ["questions", "snapshotData"],
   data: () => {
@@ -54,7 +52,7 @@ export default {
       //console.log(this.userChoice);
       //console.log(JSON.stringify(currQ));
       let selectedOpt = _.find(currQ.options, { index: this.userChoice });
-      console.log("Selected Frame ", selectedOpt.frame);
+      //console.log("Selected Frame ", selectedOpt.frame);
       eventBus.photoFilter(selectedOpt.frame, this.nextIdx);
     },
     addToAnswered() {
@@ -65,26 +63,12 @@ export default {
     },
     finish() {
       this.addToAnswered();
-      var selectedOpts = _.map(this.questionAndAnswers, "userChoice").join("");
       var selectedFrames = _.map(this.questionAndAnswers, "frame").join("");
-      //TODO add user details to the save
       var userResponse = {
-        userDetails: {},
-        img: this.snapshotData,
         userResponses: this.questionAndAnswers,
-        selectedFrames: selectedFrames,
-        selectedOptions: selectedOpts
+        selectedFrames: selectedFrames
       };
-      saveUserResponse(userResponse)
-        .then(success => {
-          console.log(success);
-          this.$router.replace("/");
-        })
-        .catch(err => {
-          //TODO better handling
-          console.log(err);
-          this.$router.replace("/");
-        });
+      eventBus.collaborate(userResponse);
     },
     nextQ() {
       if (this.nextIdx < this.questions.length - 1) {
