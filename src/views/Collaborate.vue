@@ -38,6 +38,7 @@ export default {
   },
   methods: {
     saveData() {
+      let vm = this;
       let userData = new FormData();
       let imageData = this.canvas.toDataURL();
       const blob = new Blob([imageData], { type: "octet/stream" });
@@ -48,7 +49,16 @@ export default {
         "userRespones",
         JSON.stringify(this.userResponse.userResponses)
       );
-      saveUserResponse(userData);
+
+      saveUserResponse(userData)
+        .then(res => {
+          if (res.status === 200) {
+            vm.$router.replace("/");
+          }
+        })
+        .catch(err => {
+          console.log("Error", err);
+        });
     }
   },
   mounted() {

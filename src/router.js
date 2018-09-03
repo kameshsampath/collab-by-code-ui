@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "@/views/Home.vue";
 
-import QuizView from "@/views/QuizView.vue";
+import Quiz from "@/views/Quiz.vue";
 import Canvas from "@/views/Canvas.vue";
 import Collaborate from "@/views/Collaborate.vue";
 
@@ -29,7 +29,7 @@ export default new Router({
     {
       path: "/quiz",
       name: "quiz",
-      component: QuizView
+      component: Quiz
     },
     {
       path: "/about",

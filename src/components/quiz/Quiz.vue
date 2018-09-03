@@ -20,7 +20,7 @@
 import { getQuestions } from "@/utils/apiUtils";
 
 // Components
-import questionOptions from "./QuestionOptions.vue";
+import questionOptions from "@/components/quiz/QuestionOptions.vue";
 import photoPreview from "@/components/photo/PhotoPreview.vue";
 
 export default {

@@ -13,7 +13,9 @@
     "dotenv": "^6.0.0",
     "fabric": "^2.3.6",
     "lodash": "^4.17.10",
+    "socket.io-client": "^2.1.1",
     "vue": "^2.5.17",
+    "vue-gallery": "^1.4.0",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {

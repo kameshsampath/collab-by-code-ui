@@ -37,14 +37,25 @@ export async function getFrame(id) {
 }
 
 export async function saveUserResponse(fromData) {
-  console.log("Saving user data");
   try {
     const res = await axios.post(
-      "http://localhost:3000/api/collaborators",
+      `${process.env.VUE_APP_COLLABORATORS_API_URL}`,
       fromData,
       { headers: { "Content-Type": "multipart/form-data" } }
     );
-    console.log("Success ::", res);
+    return res;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
+export async function getAvatars() {
+  try {
+    const res = await axios.get(
+      `${process.env.VUE_APP_COLLABORATORS_API_URL}/avatars`
+    );
+    return res;
   } catch (err) {
     console.error(err);
     throw err;
