@@ -19,6 +19,7 @@
 
 <script>
 import { fabric } from "fabric";
+import { toBlob } from "@/utils/utils";
 import { saveUserResponse } from "@/utils/apiUtils.js";
 export default {
   props: ["userResponse"],
@@ -41,9 +42,7 @@ export default {
       let vm = this;
       let userData = new FormData();
       let imageData = this.canvas.toDataURL();
-      const blob = new Blob([imageData], { type: "octet/stream" });
-      //console.log(blob);
-      userData.append("avatar", blob, "avatar.png");
+      userData.append("avatar", toBlob(imageData), "avatar.png");
       userData.set("email", this.email);
       userData.set(
         "userRespones",

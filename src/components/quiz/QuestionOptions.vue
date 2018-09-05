@@ -31,6 +31,7 @@
 
 <script>
 import { eventBus } from "@/main";
+import { getQuestions } from "@/utils/apiUtils";
 import * as _ from "lodash";
 
 export default {
@@ -42,6 +43,15 @@ export default {
       userChoice: "",
       lblNext: "Next"
     };
+  },
+  updated() {
+    if (!this.questions) {
+      getQuestions()
+        .then(data => (this.questions = data))
+        .catch(err => {
+          console.log(err);
+        });
+    }
   },
   methods: {
     computedId(id) {
