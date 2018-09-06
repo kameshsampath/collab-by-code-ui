@@ -1,15 +1,16 @@
 <template>
   <div class="container">
-    <div class="row">
-      <div class="col-sm-12">
+    <div class="row align-items-center">
+      <div class="col">
         <video ref="webcam" height="360" width="500" id="webcam" style="display: none">
         </video>
         <canvas id="c" width="640" height="480"></canvas>
       </div>
     </div>
-    <!-- TODO fix this alignment -->
-    <div class="float-right">
-      <button @click="takeSnapshot()" class="btn btn-primary active flot-sm-right">I am looking good!</button>
+    <div class="row align-items-center">
+      <div class="col">
+        <button @click="takeSnapshot()" class="btn btn-primary active">I am looking good!</button>
+      </div>
     </div>
   </div>
 </template>
@@ -31,7 +32,7 @@ export default {
     takeSnapshot() {
       this.snapshot = this.canvas.toDataURL({
         format: "png",
-        multiplier: 1
+        multiplier: 1.2
       });
       eventBus.previewSnapshot(this.snapshot);
     },
@@ -83,7 +84,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.booth {
-  padding: 10px;
-}
 </style>

@@ -127,18 +127,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.quiz-question {
-  padding: 10px;
-}
 .quiz-question-opt {
   padding-left: 30px;
 }
 .quiz-question-opt-label {
-  padding: 2px;
   text-align: center;
-}
-.traverse-buttons {
-  padding: 10px;
 }
 a.page-link {
   margin-left: 10px;

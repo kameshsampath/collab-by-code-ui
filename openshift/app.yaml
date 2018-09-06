@@ -1,0 +1,159 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: collab-by-code-ui-template
+  annotations:
+    description: "RHCollab By Code Event UI"
+    iconClass: "icon-nodejs"
+    tags: "nodejs"
+objects:
+  - kind: ConfigMap
+    apiVersion: v1
+    metadata:
+      name: collab-by-code-ui
+    data:
+      api.questions.uri: http://collab-by-code-api:8080/api/questions
+      api.frames.uri: http://collab-by-code-api:8080/api/frames
+      api.collaborators.uri: http://collab-by-code-api:8080/api/collaborators
+      api.avatars.uri: http://collab-by-code-api:8080/api/avatars
+      socket.uri: http://collab-by-code-api:8080
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: collab-by-code-ui
+      name: collab-by-code-ui
+    spec:
+      ports:
+        - name: web
+          port: 8080
+          protocol: TCP
+          targetPort: 8080
+      selector:
+        app: collab-by-code-ui
+  - apiVersion: v1
+    kind: Route
+    metadata:
+      labels:
+        app: collab-by-code-ui
+      name: collab-by-code-ui
+    spec:
+      to:
+        kind: Service
+        name: collab-by-code-ui
+  - kind: ImageStream
+    apiVersion: v1
+    metadata:
+      name: collab-by-code-ui
+      annotations:
+        description: "Collab by Code Event UI"
+  - apiVersion: build.openshift.io/v1
+    kind: BuildConfig
+    metadata:
+      annotations:
+        template.alpha.openshift.io/wait-for-ready: "true"
+      labels:
+        app: collab-by-code-ui
+      name: collab-by-code-ui
+    spec:
+      output:
+        to:
+          kind: ImageStreamTag
+          name: collab-by-code-ui:latest
+      source:
+        git:
+          ref: ${SOURCE_REPOSITORY_REF}
+          uri: ${SOURCE_REPOSITORY_URL}
+        type: Git
+      strategy:
+        type: Docker
+      triggers:
+        - generic:
+            secret: ${GENERIC_WEBHOOK_SECRET}
+          type: Generic
+        - github:
+            secret: ${GITHUB_WEBHOOK_SECRET}
+          type: GitHub
+        - type: ImageChange
+        - type: ConfigChange
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    metadata:
+      annotations:
+        template.alpha.openshift.io/wait-for-ready: "true"
+      labels:
+        app: collab-by-code-ui
+      name: collab-by-code-ui
+    spec:
+      strategy:
+        type: Rolling
+      triggers:
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+              - collab-by-code-ui
+            from:
+              kind: ImageStreamTag
+              name: "collab-by-code-ui:latest"
+          type: ImageChange
+        - type: ConfigChange
+      replicas: 1
+      selector:
+        app: collab-by-code-ui
+      template:
+        metadata:
+          name: collab-by-code-ui
+          labels:
+            app: collab-by-code-ui
+        spec:
+          containers:
+            - env:
+                - name: VUE_APP_QUESTIONS_API_URL
+                  valueFrom:
+                    configMapKeyRef:
+                      name: collab-by-code-ui
+                      key: api.questions.uri
+                - name: VUE_APP_FRAMES_API_URL
+                  valueFrom:
+                    configMapKeyRef:
+                      name: collab-by-code-ui
+                      key: api.frames.uri
+                - name: VUE_APP_COLLABORATORS_API_URL
+                  valueFrom:
+                    configMapKeyRef:
+                      name: collab-by-code-ui
+                      key: api.collaborators.uri
+                - name: VUE_APP_COLLABORATORS_AVATAR_URL
+                  valueFrom:
+                    configMapKeyRef:
+                      name: collab-by-code-ui
+                      key: api.avatars.uri
+                - name: VUE_APP_SOCKET_URL
+                  valueFrom:
+                    configMapKeyRef:
+                      name: collab-by-code-ui
+                      key: socket.uri
+              image: "collab-by-code-ui:latest"
+              name: collab-by-code-ui
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+              resources: {}
+parameters:
+  - name: GITHUB_WEBHOOK_SECRET
+    displayName: "GitHub Webhook Secret"
+    description: "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted."
+    generate: "expression"
+    from: "[a-zA-Z0-9]{40}"
+  - name: GENERIC_WEBHOOK_SECRET
+    displayName: "Generic Webhook Secret"
+    description: "A secret string used to configure the Generic webhook."
+    generate: "expression"
+    from: "[a-zA-Z0-9]{40}"
+  - description: Git branch/tag reference
+    name: SOURCE_REPOSITORY_REF
+    value: master
+  - description: Git source URL for application
+    name: SOURCE_REPOSITORY_URL
+    required: true
+    value: https://github.com/kameshsampath/collab-by-code-ui.git

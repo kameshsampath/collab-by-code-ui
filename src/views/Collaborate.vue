@@ -1,9 +1,6 @@
 <template>
-  <div class="container">
-    <div class="d-flex align-items-start">
-      <canvas id="preview" width="1024" height="512"></canvas>
-      <!-- <img :src="userResponse.avatar" alt="Click Image to Tweet! " class="p-2" width="1024" height="512" /> -->
-    </div>
+  <div class="container-fluid">
+    <canvas id="preview" ref="preview"></canvas>
     <div class="form-group ">
       <label for="email">Email</label>
       <input class="form-control" id="email" placeholder="you@example.com" v-model="email" />
@@ -11,8 +8,8 @@
       <textarea class="form-control " id="exampleCode" rows="7" readonly v-model="code"></textarea>
     </div>
     <div class="d-flex align-items-end pb-2 justify-content-end">
-      <button type="button " class="order-1 btn btn-md btn-primary mr-2">Tweet!</button>
-      <button type="button " class="order-2 btn btn-md btn-primary ml-2" @click="saveData()">Collaborate!</button>
+      <button type="button" class="order-1 btn btn-md btn-primary mr-2">Tweet!</button>
+      <button type="button" class="order-2 btn btn-md btn-primary ml-2" @click="saveData()">Collaborate!</button>
     </div>
   </div>
 </template>
@@ -61,22 +58,35 @@ export default {
     }
   },
   mounted() {
+    var vm = this;
+    var canvasEl = this.$refs.preview;
+    var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+    if (width > 1024) {
+      width = 1024;
+    }
+    var height = window.innerHeight > 0 ? window.innerHeight : screen.height;
+    if (height > 512) {
+      height = 512;
+    }
+    canvasEl.width = width;
+    canvasEl.height = height;
+
     //console.log(this.userResponse);
     this.canvas = new fabric.Canvas("preview", {
-      selectable: false
+      selectable: false,
+      width: 1024,
+      height: 512
     });
-    var vm = this;
+
+    vm.canvas.setDimensions({ width, height }, { cssOnly: true });
     fabric.Image.fromURL(this.userResponse.avatar, img => {
-      img
-        .set({
-          left: vm.imgLeft,
-          top: vm.imgTop,
-          angle: vm.imgAngle,
-          selectable: vm.imgSelectable,
-          hoverCursor: vm.imgHoverCursor
-        })
-        .scaleToWidth(this.imgScaleWidth)
-        .scaleToHeight(this.imgScaleHeight);
+      img.set({
+        left: vm.imgLeft,
+        top: vm.imgTop,
+        angle: vm.imgAngle,
+        selectable: vm.imgSelectable,
+        hoverCursor: vm.imgHoverCursor
+      });
       vm.canvas.add(img);
       vm.canvas.renderAll();
     });

@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <canvas id="preview" width="1024" height="512"></canvas>
-  </div>
+  <canvas id="preview" ref="preview"></canvas>
 </template>
 
 <script>
@@ -25,8 +23,24 @@ export default {
       layerIndex: 1
     };
   },
+  methods: {
+    layerWidth() {
+      return this.canvas.getObjects()[0].canvas.vptCoords.br.x;
+    }
+  },
   mounted() {
     var vm = this;
+    var canvasEl = this.$refs.preview;
+    var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+    if (width > 1024) {
+      width = 1024;
+    }
+    var height = window.innerHeight > 0 ? window.innerHeight : screen.height;
+    if (height > 512) {
+      height = 512;
+    }
+    canvasEl.width = width;
+    canvasEl.height = height;
     //TODO refresh this data in timed manner
     getFrames()
       .then(f => {
@@ -35,21 +49,15 @@ export default {
       .catch(err => {
         console.log(err);
       });
-    //TODO Fix this
-    // async () => {
-    //   try {
-    //     console.log("+++");
-    //     vm.frames = await getFrames();
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // };
+
+    //console.log("After", canvasEl);
+
     eventBus.$on("photoFilter", (frame, qIndex) => {
       vm.layerIndex = qIndex + 1;
       var f = _.find(vm.frames, { id: frame });
       //console.log("To be applied frame :", JSON.stringify(f));
       fabric.Image.fromURL(`/frames/${f.filename}`, img => {
-        img.set(f.settings).scaleToWidth(f.scaleWidth);
+        img.set(f.settings);
         //console.log("Layer Index :", vm.layerIndex);
         const currLayerImg = vm.canvas.getObjects()[vm.layerIndex];
         if (currLayerImg) {
@@ -61,21 +69,22 @@ export default {
       });
     });
 
-    this.canvas = new fabric.Canvas("preview", {
-      selectable: false
+    vm.canvas = new fabric.Canvas("preview", {
+      selectable: false,
+      width: 1024,
+      height: 512
     });
 
+    vm.canvas.setDimensions({ width, height }, { cssOnly: true });
+
     fabric.Image.fromURL(this.snapshotData, img => {
-      img
-        .set({
-          left: vm.imgLeft,
-          top: vm.imgTop,
-          angle: vm.imgAngle,
-          selectable: vm.imgSelectable,
-          hoverCursor: vm.imgHoverCursor
-        })
-        .scaleToWidth(this.imgScaleWidth)
-        .scaleToHeight(this.imgScaleHeight);
+      img.set({
+        left: vm.imgLeft,
+        top: vm.imgTop,
+        angle: vm.imgAngle,
+        selectable: vm.imgSelectable,
+        hoverCursor: vm.imgHoverCursor
+      });
       vm.canvas.add(img);
       vm.canvas.renderAll();
     });

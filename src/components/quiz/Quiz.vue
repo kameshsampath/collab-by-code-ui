@@ -1,17 +1,7 @@
 <template>
-  <div class="quiz .container-fluid">
-    <div class="row">
-      <div class="col-sm">
-        <photo-preview :snapshotData="snapshotData"></photo-preview>
-      </div>
-      <div class="col-sm">
-        <div class="qpanel panel panel-default">
-          <div class="panel-body">
-            <question-options :questions="questions" />
-          </div>
-        </div>
-      </div>
-    </div>
+  <div>
+    <photo-preview :snapshotData="snapshotData"></photo-preview>
+    <question-options :questions="questions" />
   </div>
 </template>
 
