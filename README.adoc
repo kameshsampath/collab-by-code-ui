@@ -1,21 +1,21 @@
-= Collab By Code Event UI
+# ui
 
+## Project setup
+```
+npm install
+```
 
-== Create Application in OpenShift
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-[source=sh,attributes=+]
-----
-oc new-app https://github.com/kameshsampath/collab-by-code-ui.git
-----
+### Compiles and minifies for production
+```
+npm run build
+```
 
-== Development  Build
-
-[source=sh,attributes=+]
-----
-oc new-build --name collab-by-code-ui --binary -l app=collab-by-code-ui 
-npm install;oc start-build collab-by-code-ui --from-dir="." --follow
-oc new-app collab-by-code-ui -l app=collab-by-code-ui 
-oc expose svc/collab-by-code-ui #<1>
-----
-
-<1> this is needed only for development 
+### Lints and fixes files
+```
+npm run lint
+```
