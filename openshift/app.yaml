@@ -62,10 +62,13 @@ objects:
         app: collab-by-code-ui
       name: collab-by-code-ui
     spec:
+      port:
+        targetPort: web
+      tls:
+        termination: edge
       to:
         kind: Service
         name: collab-by-code-ui
-
   # the s2i image that builds cbc-webapp-builder
   - kind: ImageStream
     apiVersion: v1
@@ -120,8 +123,31 @@ objects:
           env:
             - name: OUTPUT_DIR
               value: ${OUTPUT_DIR}
-            - name: YARN_ENABLED
-              value: true
+            - name: VUE_APP_QUESTIONS_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: collab-by-code-ui
+                  key: api.questions.uri
+            - name: VUE_APP_FRAMES_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: collab-by-code-ui
+                  key: api.frames.uri
+            - name: VUE_APP_COLLABORATORS_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: collab-by-code-ui
+                  key: api.collaborators.uri
+            - name: VUE_APP_COLLABORATORS_AVATAR_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: collab-by-code-ui
+                  key: api.avatars.uri
+            - name: VUE_APP_SOCKET_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: collab-by-code-ui
+                  key: socket.uri
           from:
             kind: ImageStreamTag
             name: cbc-webapp-builder-runtime:latest
@@ -211,34 +237,8 @@ objects:
             app: collab-by-code-ui
         spec:
           containers:
-            - env:
-                - name: VUE_APP_QUESTIONS_API_URL
-                  valueFrom:
-                    configMapKeyRef:
-                      name: collab-by-code-ui
-                      key: api.questions.uri
-                - name: VUE_APP_FRAMES_API_URL
-                  valueFrom:
-                    configMapKeyRef:
-                      name: collab-by-code-ui
-                      key: api.frames.uri
-                - name: VUE_APP_COLLABORATORS_API_URL
-                  valueFrom:
-                    configMapKeyRef:
-                      name: collab-by-code-ui
-                      key: api.collaborators.uri
-                - name: VUE_APP_COLLABORATORS_AVATAR_URL
-                  valueFrom:
-                    configMapKeyRef:
-                      name: collab-by-code-ui
-                      key: api.avatars.uri
-                - name: VUE_APP_SOCKET_URL
-                  valueFrom:
-                    configMapKeyRef:
-                      name: collab-by-code-ui
-                      key: socket.uri
+            - name: collab-by-code-ui
               image: "collab-by-code-ui:latest"
-              name: collab-by-code-ui
               ports:
                 - containerPort: 8080
                   protocol: TCP
