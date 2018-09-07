@@ -76,14 +76,12 @@ objects:
         - name: latest
           from:
             kind: DockerImage
-            name: kameshsampath/centos7-s2i-web-app
+            name: "docker.io/kameshsampath/centos7-s2i-web-app:latest"
   # Build the base builder image
   - kind: ImageStream
     apiVersion: v1
     metadata:
       name: cbc-webapp-builder
-      annotations:
-        description: ""
   # Actual Runtime based on cbc-webapp-builder-runtime Image
   - kind: ImageStream
     apiVersion: v1
@@ -122,9 +120,11 @@ objects:
           env:
             - name: OUTPUT_DIR
               value: ${OUTPUT_DIR}
+            - name: YARN_ENABLED
+              value: true
           from:
             kind: ImageStreamTag
-            name: cbc-builder-runtime:latest
+            name: cbc-webapp-builder-runtime:latest
           incremental: true
         type: Source
       triggers:
