@@ -1,5 +1,7 @@
 <template>
-  <canvas id="preview" ref="preview"></canvas>
+  <div id="canvasSizer" ref="canvasSizer">
+    <canvas id="preview" ref="preview"></canvas>
+  </div>
 </template>
 
 <script>
@@ -12,35 +14,77 @@ export default {
   data() {
     return {
       canvas: {},
-      imgLeft: 0,
+      imgLeft: -10,
       imgTop: 0,
       imgAngle: 0,
       imgSelectable: false,
       imgHoverCursor: "default",
       imgScaleWidth: 1024,
       imgScaleHeight: 512,
+      imgCurrentWidth: 0,
+      imgCurrentHeight: 0,
       frames: [],
-      layerIndex: 1
+      layerIndex: 1,
+      canvasScaleFactor: 0
     };
   },
   methods: {
-    layerWidth() {
-      return this.canvas.getObjects()[0].canvas.vptCoords.br.x;
+    renderImageCanvas() {
+      var vm = this;
+      let canvasSizer = this.$refs.canvasSizer;
+      if (canvasSizer) {
+        vm.canvas = new fabric.Canvas("preview", {
+          selectable: false,
+          width: vm.imgScaleWidth,
+          height: vm.imgScaleHeight,
+          containerClassName: "preview",
+          preserveObjectStacking: true,
+          originX: "left",
+          originY: "center"
+        });
+
+        let canvasScaleFactor = canvasSizer.offsetWidth / vm.imgScaleWidth;
+        let width = canvasSizer.offsetWidth;
+        let height = canvasSizer.offsetHeight;
+
+        var ratio = vm.canvas.getWidth() / vm.canvas.getHeight();
+        if (width / height > ratio) {
+          width = height * ratio;
+        } else {
+          height = width / ratio;
+        }
+
+        vm.canvas.setDimensions({ width, height });
+
+        fabric.Image.fromURL(this.snapshotData, img => {
+          img.set({
+            left: vm.imgLeft,
+            top: vm.imgTop,
+            angle: vm.imgAngle,
+            selectable: vm.imgSelectable,
+            hoverCursor: vm.imgHoverCursor
+          });
+          img.scaleToWidth(width);
+          img.scaleToHeight(height);
+          vm.canvas.add(img);
+          vm.canvas.renderAll();
+        });
+        vm.canvasScaleFactor = canvasScaleFactor;
+        vm.imgCurrentWidth = width;
+        vm.imgCurrentHeight = height;
+      }
     }
   },
   mounted() {
     var vm = this;
-    var canvasEl = this.$refs.preview;
-    var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-    if (width > 1024) {
-      width = 1024;
-    }
-    var height = window.innerHeight > 0 ? window.innerHeight : screen.height;
-    if (height > 512) {
-      height = 512;
-    }
-    canvasEl.width = width;
-    canvasEl.height = height;
+    vm.renderImageCanvas();
+    this.$nextTick(() => {
+      window.addEventListener("resize", function() {
+        vm.renderImageCanvas();
+        console.log("resize");
+      });
+    });
+
     //TODO refresh this data in timed manner
     getFrames()
       .then(f => {
@@ -55,10 +99,15 @@ export default {
     eventBus.$on("photoFilter", (frame, qIndex) => {
       vm.layerIndex = qIndex + 1;
       var f = _.find(vm.frames, { id: frame });
-      //console.log("To be applied frame :", JSON.stringify(f));
       fabric.Image.fromURL(`/frames/${f.filename}`, img => {
-        img.set(f.settings);
-        //console.log("Layer Index :", vm.layerIndex);
+        img.set({
+          left: 20,
+          top: 0,
+          angle: 0,
+          selectable: false,
+          hoverCursor: "default"
+        });
+        img.scaleToHeight(vm.imgCurrentHeight * 0.8);
         const currLayerImg = vm.canvas.getObjects()[vm.layerIndex];
         if (currLayerImg) {
           vm.canvas.remove(currLayerImg);
@@ -69,33 +118,19 @@ export default {
       });
     });
 
-    vm.canvas = new fabric.Canvas("preview", {
-      selectable: false,
-      width: 1024,
-      height: 512
-    });
-
-    vm.canvas.setDimensions({ width, height }, { cssOnly: true });
-
-    fabric.Image.fromURL(this.snapshotData, img => {
-      img.set({
-        left: vm.imgLeft,
-        top: vm.imgTop,
-        angle: vm.imgAngle,
-        selectable: vm.imgSelectable,
-        hoverCursor: vm.imgHoverCursor
-      });
-      vm.canvas.add(img);
-      vm.canvas.renderAll();
-    });
-
     //Routing to Collaborate page
     eventBus.$on("collaborate", userResponse => {
-      userResponse["avatar"] = this.canvas.toDataURL({ format: "png" });
+      userResponse["avatar"] = this.canvas.toDataURL({
+        format: "png",
+        multiplier: 2
+      });
       this.$router.push({ name: "collaborate", params: { userResponse } });
     });
   }
 };
 </script>
 <style>
+.preview {
+  border: 1px solid black;
+}
 </style>

@@ -1,19 +1,25 @@
-const fs = require("fs");
 const https = require("https");
 const axios = require("axios");
+const vfs = require("fs");
 
-const sslOpts = new https.Agent({
-  ca: fs.readFileSync(
-    "/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt"
-  )
-});
+let instance;
+
+if ("development" === process.env.NODE_ENV) {
+  instance = axios.create();
+} else {
+  const caCert = vfs.readFileSync(
+    "/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt",
+    "utf8"
+  );
+  instance = axios.create({ httpsAgent: new https.Agent({ ca: caCert }) });
+}
 
 export async function getQuestions() {
   try {
     const url =
       process.env.VUE_APP_QUESTIONS_API_URL ||
       "http://myapi.example.com/api/questions";
-    const res = await axios.get(url, { httpsAgent: sslOpts });
+    const res = await instance.get(url);
     return res.data;
   } catch (error) {
     console.error(error);
@@ -25,7 +31,7 @@ export async function getFrames() {
     const url =
       process.env.VUE_APP_FRAMES_API_URL ||
       "http://myapi.example.com/api/frames";
-    const res = await axios.get(url, { httpsAgent: sslOpts });
+    const res = await instance.get(url);
     return res.data;
   } catch (error) {
     console.error(error);
@@ -37,7 +43,7 @@ export async function getFrame(id) {
     const url =
       `${process.env.VUE_APP_FRAMES_API_URL}/${id}` ||
       `http://myapi.example.com/api/frames/${id}`;
-    const res = await axios.get(url, { httpsAgent: sslOpts });
+    const res = await instance.get(url);
     return res.data;
   } catch (error) {
     console.error(error);
@@ -46,11 +52,10 @@ export async function getFrame(id) {
 
 export async function saveUserResponse(fromData) {
   try {
-    const res = await axios.post(
+    const res = await instance.post(
       `${process.env.VUE_APP_COLLABORATORS_API_URL}`,
       fromData,
       {
-        httpsAgent: sslOpts,
         headers: { "Content-Type": "multipart/form-data" }
       }
     );
@@ -63,9 +68,8 @@ export async function saveUserResponse(fromData) {
 
 export async function getAvatars() {
   try {
-    const res = await axios.get(
-      `${process.env.VUE_APP_COLLABORATORS_API_URL}/avatars`,
-      { httpsAgent: sslOpts }
+    const res = await instance.get(
+      `${process.env.VUE_APP_COLLABORATORS_API_URL}/avatars`
     );
     return res;
   } catch (err) {

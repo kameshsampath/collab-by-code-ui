@@ -35,23 +35,20 @@ import { getQuestions } from "@/utils/apiUtils";
 import * as _ from "lodash";
 
 export default {
-  props: ["questions", "snapshotData"],
+  props: ["snapshotData"],
   data: () => {
     return {
       nextIdx: 0,
       questionAndAnswers: [],
       userChoice: "",
-      lblNext: "Next"
+      lblNext: "Next",
+      questions: []
     };
   },
-  updated() {
-    if (!this.questions) {
-      getQuestions()
-        .then(data => (this.questions = data))
-        .catch(err => {
-          console.log(err);
-        });
-    }
+  created() {
+    getQuestions()
+      .then(data => (this.questions = data))
+      .catch(err => console.log(err));
   },
   methods: {
     computedId(id) {

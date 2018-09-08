@@ -32,7 +32,7 @@
         </div>
       </nav>
     </header>
-    <main role="main" class="container">
+    <main role="main">
       <router-view/>
     </main>
     <appFooter/>
@@ -42,10 +42,14 @@
 <script>
 import appFooter from "@/components/Footer";
 
+import { getQuestions } from "@/utils/apiUtils";
+
 export default {
-  // mounted() {
-  //   console.log(process.env);
-  // }
+  mounted() {
+    getQuestions()
+      .then(data => this.$root.questions)
+      .catch(err => console.log("Error loading questions", err));
+  },
   components: {
     appFooter
   }

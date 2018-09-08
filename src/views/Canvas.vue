@@ -1,9 +1,12 @@
 <template>
-  <div class="grid" id="grid" ref="grid">
-    <div class="grid-sizer"></div>
-    <div class="grid-item" v-for="avatar in avatars" v-bind:key="avatar.email">
-      <img :src="imgUrl(avatar)">
-    </div>
+  <!-- this is part of the bootstrap structure you should have -->
+  <div class="container-fluid">
+    <!--   the gallery starts here -->
+    <ul class="list-unstyled demo-gallery">
+      <li v-for="avatar in avatars" v-bind:key="avatar.email">
+        <img :src="imgUrl(avatar)">
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -11,10 +14,6 @@
 import io from "socket.io-client";
 import * as _ from "lodash";
 import { getAvatars } from "@/utils/apiUtils";
-
-import * as Masonry from "masonry-layout";
-
-let imagesloaded = require("imagesloaded");
 
 export default {
   data() {
@@ -33,17 +32,6 @@ export default {
   },
   mounted() {
     var vm = this;
-    var grid = this.$refs.grid;
-
-    var msnry = new Masonry(grid, {
-      columnWidth: ".grid-sizer",
-      percentPosition: true,
-      itemSelector: ".grid-item"
-    });
-
-    imagesloaded(grid, { background: true }).on("progress", () => {
-      msnry.layout();
-    });
     const avatarSocket = io(`${process.env.VUE_APP_SOCKET_URL}`);
     avatarSocket.on("connect", () => {
       //console.log("Connected to Avatar Socket");
@@ -52,7 +40,7 @@ export default {
         .then(res => {
           const docs = res.data;
           vm.avatars = [];
-          const imgUrls = _.map(docs, e => {
+          _.map(docs, e => {
             vm.avatars.push({
               email: e.email,
               url: `${process.env.VUE_APP_COLLABORATORS_AVATAR_URL}/${e.avatar}`
@@ -75,45 +63,37 @@ export default {
 </script>
 
 <style scoped>
-* {
-  box-sizing: border-box;
+.demo-gallery {
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 0.25rem;
+  padding: 1rem;
 }
-
-/* force scrollbar */
-html {
-  overflow-y: scroll;
+.demo-gallery li {
+  transition: 0.2s transform ease-in-out;
 }
-
-body {
-  font-family: overpass;
-}
-
-/* ---- grid ---- */
-
-.grid {
-  background: #ddd;
-}
-
-/* clear fix */
-.grid:after {
-  content: "";
+.demo-gallery img {
+  width: 100%;
   display: block;
-  clear: both;
 }
 
-/* ---- .grid-item ---- */
-
-.grid-sizer,
-.grid-item {
-  width: 33.333%;
+.demo-gallery li:hover {
+  transform: scale3d(1.2, 1.2, 1) rotate(5deg);
+  z-index: 2;
+  box-shadow: 0 0.2rem 1rem -0.2rem rgba(0, 0, 0, 0.5);
 }
 
-.grid-item {
-  float: left;
+.demo-gallery li:nth-child(4n-7):hover {
+  transform: scale3d(1.2, 1.2, 1) rotate(-5deg);
 }
 
-.grid-item img {
-  display: block;
-  max-width: 100%;
+.demo-gallery li:nth-child(3n-7):hover {
+  transform: scale3d(1.2, 1.2, 1) rotate(-3deg);
+}
+
+.demo-gallery li:nth-child(5n-7):hover {
+  /* or 4n+1 */
+  transform: scale3d(1.2, 1.2, 1) rotate(3deg);
 }
 </style>

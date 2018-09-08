@@ -4,7 +4,7 @@
       <div class="col">
         <video ref="webcam" height="360" width="500" id="webcam" style="display: none">
         </video>
-        <canvas id="c" width="640" height="480"></canvas>
+        <canvas id="c" width="1024" height="512"></canvas>
       </div>
     </div>
     <div class="row align-items-center">
@@ -31,8 +31,7 @@ export default {
   methods: {
     takeSnapshot() {
       this.snapshot = this.canvas.toDataURL({
-        format: "png",
-        multiplier: 1.2
+        format: "png"
       });
       eventBus.previewSnapshot(this.snapshot);
     },

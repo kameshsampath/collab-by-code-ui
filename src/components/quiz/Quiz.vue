@@ -1,7 +1,7 @@
 <template>
   <div>
     <photo-preview :snapshotData="snapshotData"></photo-preview>
-    <question-options :questions="questions" />
+    <question-options/>
   </div>
 </template>
 
@@ -22,7 +22,6 @@ export default {
   },
   data: function() {
     return {
-      questions: [],
       nextIdx: 0,
       imageData: null
     };
@@ -30,13 +29,6 @@ export default {
   components: {
     questionOptions,
     photoPreview
-  },
-  mounted() {
-    getQuestions()
-      .then(data => (this.questions = data))
-      .catch(err => {
-        console.log(err);
-      });
   }
 };
 </script>

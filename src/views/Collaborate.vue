@@ -1,6 +1,8 @@
 <template>
-  <div class="container-fluid">
-    <canvas id="preview" ref="preview"></canvas>
+  <div>
+    <div id="canvasSizer" ref="canvasSizer">
+      <canvas id="preview" ref="preview"></canvas>
+    </div>
     <div class="form-group ">
       <label for="email">Email</label>
       <input class="form-control" id="email" placeholder="you@example.com" v-model="email" />
@@ -38,11 +40,14 @@ export default {
     saveData() {
       let vm = this;
       let userData = new FormData();
-      let imageData = this.canvas.toDataURL();
+      let imageData = this.canvas.toDataURL({
+        format: "png",
+        multiplier: 1
+      });
       userData.append("avatar", toBlob(imageData), "avatar.png");
       userData.set("email", this.email);
       userData.set(
-        "userRespones",
+        "userResponses",
         JSON.stringify(this.userResponse.userResponses)
       );
 
@@ -55,41 +60,53 @@ export default {
         .catch(err => {
           console.log("Error", err);
         });
+    },
+    renderImageCanvas() {
+      var vm = this;
+      let canvasSizer = this.$refs.canvasSizer;
+      if (canvasSizer) {
+        vm.canvas = new fabric.Canvas("preview", {
+          selectable: false,
+          width: vm.imgScaleWidth,
+          height: vm.imgScaleHeight,
+          containerClassName: "preview",
+          preserveObjectStacking: true,
+          originX: "left",
+          originY: "center"
+        });
+
+        let canvasScaleFactor = canvasSizer.offsetWidth / vm.imgScaleWidth;
+        let width = canvasSizer.offsetWidth;
+        let height = canvasSizer.offsetHeight;
+
+        var ratio = vm.canvas.getWidth() / vm.canvas.getHeight();
+        if (width / height > ratio) {
+          width = height * ratio;
+        } else {
+          height = width / ratio;
+        }
+
+        vm.canvas.setDimensions({ width, height });
+
+        fabric.Image.fromURL(this.userResponse.avatar, img => {
+          img.set({
+            left: vm.imgLeft,
+            top: vm.imgTop,
+            angle: vm.imgAngle,
+            selectable: vm.imgSelectable,
+            hoverCursor: vm.imgHoverCursor
+          });
+          img.scaleToWidth(width);
+          img.scaleToHeight(height);
+          vm.canvas.add(img);
+          vm.canvas.renderAll();
+        });
+      }
     }
   },
   mounted() {
     var vm = this;
-    var canvasEl = this.$refs.preview;
-    var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-    if (width > 1024) {
-      width = 1024;
-    }
-    var height = window.innerHeight > 0 ? window.innerHeight : screen.height;
-    if (height > 512) {
-      height = 512;
-    }
-    canvasEl.width = width;
-    canvasEl.height = height;
-
-    //console.log(this.userResponse);
-    this.canvas = new fabric.Canvas("preview", {
-      selectable: false,
-      width: 1024,
-      height: 512
-    });
-
-    vm.canvas.setDimensions({ width, height }, { cssOnly: true });
-    fabric.Image.fromURL(this.userResponse.avatar, img => {
-      img.set({
-        left: vm.imgLeft,
-        top: vm.imgTop,
-        angle: vm.imgAngle,
-        selectable: vm.imgSelectable,
-        hoverCursor: vm.imgHoverCursor
-      });
-      vm.canvas.add(img);
-      vm.canvas.renderAll();
-    });
+    this.renderImageCanvas();
   }
 };
 </script>
