@@ -1,5 +1,5 @@
 <template>
-  <div class="qopts">
+  <div class="qopts" v-if="hasQuestions">
     <div v-if="questions[nextIdx]" class="input-group">
       <div class="mb-3">
         <div class="input-group-prepend quiz-question">
@@ -41,14 +41,21 @@ export default {
       nextIdx: 0,
       questionAndAnswers: [],
       userChoice: "",
-      lblNext: "Next",
-      questions: []
+      lblNext: "Next"
     };
   },
+  computed: {
+    hasQuestions() {
+      //console.log("1.hasQuestions", this.$store.getters.hasQuestions);
+      return this.$store.getters.hasQuestions;
+    },
+    questions() {
+      //console.log("2.questions");
+      return this.$store.getters.questions;
+    }
+  },
   created() {
-    getQuestions()
-      .then(data => (this.questions = data))
-      .catch(err => console.log(err));
+    this.$store.dispatch("fetchQuestions");
   },
   methods: {
     computedId(id) {

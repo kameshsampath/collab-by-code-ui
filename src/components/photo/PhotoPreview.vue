@@ -81,7 +81,6 @@ export default {
     this.$nextTick(() => {
       window.addEventListener("resize", function() {
         vm.renderImageCanvas();
-        console.log("resize");
       });
     });
 

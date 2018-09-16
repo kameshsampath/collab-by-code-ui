@@ -13,7 +13,7 @@
                 <span class="p-2">Home</span>
               </router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="isAuthenticated">
               <router-link to="/quiz">
                 <span class="p-2">Quiz</span>
               </router-link>
@@ -29,6 +29,10 @@
               </router-link>
             </li>
           </ul>
+          <form class="form-inline mt-2 mt-md-0">
+            <router-link v-if="!isAuthenticated" to="/login" tag="button" class="btn btn-outline-success my-2 my-sm-0">Login</router-link>
+            <button v-else @click="doLogout" class="btn btn-outline-success my-2 my-sm-0">Logout</button>
+          </form>
         </div>
       </nav>
     </header>
@@ -41,21 +45,22 @@
 
 <script>
 import appFooter from "@/components/Footer";
-
-import { getQuestions } from "@/utils/apiUtils";
-
 export default {
-  mounted() {
-    getQuestions()
-      .then(data => this.$root.questions)
-      .catch(err => console.log("Error loading questions", err));
-  },
   components: {
     appFooter
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.authed;
+    }
+  },
+  methods: {
+    doLogout() {
+      this.$store.dispatch("logout");
+    }
   }
 };
 </script>
-
 
 <style lang="scss">
 html {

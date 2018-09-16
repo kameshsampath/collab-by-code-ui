@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Template
 metadata:
-  name: collab-by-code-ui-template
+  name: collab-by-code-ui
   annotations:
     description: "RHCollab By Code Event UI"
     iconClass: "icon-nodejs"
@@ -29,18 +29,40 @@ parameters:
     displayName: Output Directory
     value: dist
     required: false
-
+  - name: COLLAB_API_SERVICE_URL
+    description: The Collab by Code service API URL
+    displayName: Collab by code Service API URL
+    value: http://collab-by-code-api.example.com
+    required: true
+  - name: KEYCLOAK_URL
+    description: The Keycloak server URL
+    displayName: Keycloak Server URL
+    value: http://my-keycloak.example.com/auth
+    required: true
+  - name: KEYCLOAK_REALM
+    description: The Keycloak Realm to use
+    displayName: Keycloak Realm
+    value: collabbycode
+    required: false
+  - name: KEYCLOAK_CLIENT_ID
+    description: The Keycloak Client Id
+    displayName: Keycloak Client Id
+    value: collab-by-code-ui
+    required: false
 objects:
   - kind: ConfigMap
     apiVersion: v1
     metadata:
       name: collab-by-code-ui
     data:
-      api.questions.uri: http://collab-by-code-api:8080/api/questions
-      api.frames.uri: http://collab-by-code-api:8080/api/frames
-      api.collaborators.uri: http://collab-by-code-api:8080/api/collaborators
-      api.avatars.uri: http://collab-by-code-api:8080/api/avatars
-      socket.uri: http://collab-by-code-api:8080
+      api.questions.uri: ${COLLAB_API_SERVICE_URL}/api/questions
+      api.frames.uri: ${COLLAB_API_SERVICE_URL}/api/frames
+      api.collaborators.uri: ${COLLAB_API_SERVICE_URL}/api/collaborators
+      api.avatars.uri: ${COLLAB_API_SERVICE_URL}/api/avatars
+      socket.uri: ${COLLAB_API_SERVICE_URL}
+      keycloak.url: ${KEYCLOAK_URL}
+      keycloak.realm: ${KEYCLOAK_REALM}
+      keycloak.clientId: ${KEYCLOAK_CLIENT_ID}
   - apiVersion: v1
     kind: Service
     metadata:
@@ -148,6 +170,21 @@ objects:
                 configMapKeyRef:
                   name: collab-by-code-ui
                   key: socket.uri
+            - name: VUE_APP_KEYCLOAK_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: collab-by-code-ui
+                  key: keycloak.url
+            - name: VUE_APP_KEYCLOAK_REALM
+              valueFrom:
+                configMapKeyRef:
+                  name: collab-by-code-ui
+                  key: keycloak.realm
+            - name: VUE_APP_KEYCLOAK_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: collab-by-code-ui
+                  key: keycloak.clientId
           from:
             kind: ImageStreamTag
             name: cbc-webapp-builder-runtime:latest

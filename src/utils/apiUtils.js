@@ -1,18 +1,27 @@
+import { store } from "../store/store";
+
 const https = require("https");
 const axios = require("axios");
-const vfs = require("fs");
 
 let instance;
 
 if ("development" === process.env.NODE_ENV) {
   instance = axios.create();
 } else {
-  const caCert = vfs.readFileSync(
-    "/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt",
-    "utf8"
-  );
-  instance = axios.create({ httpsAgent: new https.Agent({ ca: caCert }) });
+  instance = axios.create({ httpsAgent: new https.Agent() });
 }
+
+// instance.defaults.headers.common["Authorization"] = `Bearer ${
+//   store.state.accessToken
+// }`;
+
+instance.interceptors.request.use(config => {
+  //console.log(config);
+  config.headers.common["Authorization"] = `Bearer ${
+    store.getters.accessToken
+  }`;
+  return config;
+});
 
 export async function getQuestions() {
   try {
