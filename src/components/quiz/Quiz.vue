@@ -14,10 +14,9 @@ import questionOptions from "@/components/quiz/QuestionOptions.vue";
 import photoPreview from "@/components/photo/PhotoPreview.vue";
 
 export default {
-  props: {
-    snapshotData: {
-      type: String,
-      required: true
+  computed: {
+    snapshotData() {
+      return this.$store.getters.snapshot;
     }
   },
   data: function() {

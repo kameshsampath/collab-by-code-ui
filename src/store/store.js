@@ -3,6 +3,8 @@ import Vuex from "vuex";
 
 import auth from "./modules/auth";
 import quiz from "./modules/quiz";
+import photo from "./modules/photo";
+import photoFilter from "./modules/photoFilter";
 
 Vue.use(Vuex);
 
@@ -13,6 +15,8 @@ export const store = new Vuex.Store({
   actions: {},
   modules: {
     auth,
-    quiz
+    quiz,
+    photo,
+    photoFilter
   }
 });

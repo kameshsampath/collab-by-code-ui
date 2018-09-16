@@ -1,7 +1,7 @@
 <template>
   <div class="quiz">
     <div class="container">
-      <component :is="selectedComponent" :snapshotData="snapshotData" :questions="questions">
+      <component :is="selectedComponent">
       </component>
     </div>
   </div>
@@ -16,17 +16,15 @@ import photoBooth from "@/components/photo/PhotoBooth.vue";
 import quiz from "@/components/quiz/Quiz.vue";
 
 export default {
-  props: ["questions"],
   data() {
-    return { selectedComponent: "photoBooth", snapshotData: "" };
+    return { selectedComponent: "photoBooth" };
   },
   components: {
     photoBooth,
     quiz
   },
   mounted() {
-    eventBus.$on("changeComponent", snapshotData => {
-      this.snapshotData = snapshotData;
+    eventBus.$on("changeComponent", () => {
       this.selectedComponent = "quiz";
     });
   }

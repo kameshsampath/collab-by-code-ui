@@ -33,7 +33,7 @@ export default {
       this.snapshot = this.canvas.toDataURL({
         format: "png"
       });
-      eventBus.previewSnapshot(this.snapshot);
+      this.$store.dispatch("previewSnapshot", this.snapshot);
     },
     getUserMedia() {
       var userMediaFunc =

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- TODO Add Info/Error Dialog -->
     <div id="canvasSizer" ref="canvasSizer">
       <canvas id="preview" ref="preview"></canvas>
     </div>
@@ -54,11 +55,14 @@ export default {
       saveUserResponse(userData)
         .then(res => {
           if (res.status === 200) {
+            vm.$store.dispatch("clearSnapshot");
+            vm.$store.dispatch("clearAvatar");
             vm.$router.replace("/");
           }
         })
         .catch(err => {
           console.log("Error", err);
+          //TODO show error dialog ??
         });
     },
     renderImageCanvas() {
@@ -88,7 +92,7 @@ export default {
 
         vm.canvas.setDimensions({ width, height });
 
-        fabric.Image.fromURL(this.userResponse.avatar, img => {
+        fabric.Image.fromURL(vm.$store.getters.avatar, img => {
           img.set({
             left: vm.imgLeft,
             top: vm.imgTop,

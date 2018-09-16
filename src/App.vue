@@ -18,7 +18,7 @@
                 <span class="p-2">Quiz</span>
               </router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="isAuthenticated">
               <router-link to="/canvas">
                 <span class="p-2">Canvas</span>
               </router-link>

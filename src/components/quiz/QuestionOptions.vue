@@ -31,11 +31,9 @@
 
 <script>
 import { eventBus } from "@/main";
-import { getQuestions } from "@/utils/apiUtils";
 import * as _ from "lodash";
 
 export default {
-  props: ["snapshotData"],
   data: () => {
     return {
       nextIdx: 0,

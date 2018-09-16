@@ -119,10 +119,13 @@ export default {
 
     //Routing to Collaborate page
     eventBus.$on("collaborate", userResponse => {
-      userResponse["avatar"] = this.canvas.toDataURL({
-        format: "png",
-        multiplier: 2
-      });
+      this.$store.dispatch(
+        "applyFilter",
+        this.canvas.toDataURL({
+          format: "png",
+          multiplier: 2
+        })
+      );
       this.$router.push({ name: "collaborate", params: { userResponse } });
     });
   }
