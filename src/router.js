@@ -27,28 +27,28 @@ const routes = [
     path: "/collaborate",
     name: "collaborate",
     component: Collaborate,
-    props: true,
-    beforeEnter(to, from, next) {
-      // console.log("Access Token:", store.getters.accessToken);
-      // console.log("Token Expired:", JSON.stringify(keyCloak.tokenParsed));
-      if (store.getters.accessToken && keyCloak.tokenParsed) {
-        next();
-      }
-    }
+    props: true
+    // beforeEnter(to, from, next) {
+    //   // console.log("Access Token:", store.getters.accessToken);
+    //   // console.log("Token Expired:", JSON.stringify(keyCloak.tokenParsed));
+    //   if (store.getters.accessToken && keyCloak.tokenParsed) {
+    //     next();
+    //   }
+    // }
   },
   {
     path: "/quiz",
     name: "quiz",
-    component: Quiz,
-    beforeEnter(to, from, next) {
-      //console.log("Access Token:", store.getters.accessToken);
-      //console.log("Token Parsed:", JSON.stringify(keyCloak.tokenParsed));
-      if (store.getters.accessToken && keyCloak.tokenParsed) {
-        next();
-      } else {
-        next("/auth/quiz");
-      }
-    }
+    component: Quiz
+    // beforeEnter(to, from, next) {
+    //   //console.log("Access Token:", store.getters.accessToken);
+    //   //console.log("Token Parsed:", JSON.stringify(keyCloak.tokenParsed));
+    //   if (store.getters.accessToken && keyCloak.tokenParsed) {
+    //     next();
+    //   } else {
+    //     next("/auth/quiz");
+    //   }
+    // }
   },
   {
     path: "/about",

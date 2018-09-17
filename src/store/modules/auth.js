@@ -1,4 +1,4 @@
-import { keyCloak } from "../../keycloak/keycloak";
+//import { keyCloak } from "../../keycloak/keycloak";
 import { router } from "../../router";
 
 const state = {
@@ -7,10 +7,10 @@ const state = {
 
 const getters = {
   accessToken(state) {
-    return state.accessToken;
+    return "redhat";
   },
   authed(state) {
-    return state.accessToken !== null;
+    return true;
   }
 };
 
@@ -19,16 +19,16 @@ const mutations = {
     state.accessToken = token;
   },
   refreshToken(state) {
-    state.accessToken = keyCloak.token;
+    state.accessToken = "redhat";
   },
   logout(state) {
-    state.accessToken = null;
+    state.accessToken = "redhat";
   }
 };
 
 const actions = {
   logout({ commit }) {
-    keyCloak.logout();
+    //keyCloak.logout();
     commit("logout");
     router.replace({ name: "home" });
   },
