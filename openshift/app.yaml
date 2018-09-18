@@ -6,6 +6,7 @@ metadata:
     description: "RHCollab By Code Event UI"
     iconClass: "icon-nodejs"
     tags: "nodejs"
+    openshift.io/display-name: Collab by Code Event UI
 parameters:
   - name: GITHUB_WEBHOOK_SECRET
     displayName: "GitHub Webhook Secret"
@@ -32,7 +33,6 @@ parameters:
   - name: COLLAB_API_SERVICE_URL
     description: The Collab by Code service API URL
     displayName: Collab by code Service API URL
-    value: http://collab-by-code-api.example.com
     required: true
   - name: KEYCLOAK_URL
     description: The Keycloak server URL

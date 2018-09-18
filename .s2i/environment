@@ -1,1 +1,2 @@
 OUTPUT_DIR=dist
+NODE_ENV=production
