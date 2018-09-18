@@ -66,6 +66,14 @@ const routes = [
   {
     path: "/login",
     redirect: "/auth/home"
+  },
+  {
+    path: "/logout",
+    beforeEnter(to, from, next) {
+      //console.log("Keycloak Logout URL", keyCloak.logoutUrl());
+      keyCloak.logout();
+      //window.location  = keyCloak.logoutUrl();
+    }
   }
 ];
 

@@ -28,12 +28,19 @@ const mutations = {
 
 const actions = {
   logout({ commit }) {
-    keyCloak.logout();
     commit("logout");
-    router.replace({ name: "home" });
   },
-  refreshToken({ commit }) {
-    commit("refreshToken");
+  refreshToken({ commit }, minValidity) {
+    keyCloak
+      .updateToken(minValidity || 10)
+      .then(() => {
+        console.log("Refreshed Token Successfully");
+        commit("refreshToken");
+      })
+      .catch(() => {
+        commit("logout");
+        console.error("Unable to refresh token, clearing existing sessions");
+      });
   },
   saveToken({ commit }, token) {
     commit("saveToken", token);

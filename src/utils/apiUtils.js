@@ -17,9 +17,18 @@ if ("development" === process.env.NODE_ENV) {
 
 instance.interceptors.request.use(config => {
   //console.log(config);
-  config.headers.common["Authorization"] = `Bearer ${
-    store.getters.accessToken
-  }`;
+  store
+    .dispatch("refresh")
+    .then(res => {
+      console.log("Successfully refreshed token");
+      config.headers.common["Authorization"] = `Bearer ${
+        store.getters.accessToken
+      }`;
+    })
+    .catch(err => {
+      console.log("Error refreshing token ", err);
+    });
+
   return config;
 });
 

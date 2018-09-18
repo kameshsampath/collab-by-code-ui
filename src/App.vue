@@ -31,7 +31,7 @@
           </ul>
           <form class="form-inline mt-2 mt-md-0">
             <router-link v-if="!isAuthenticated" to="/login" tag="button" class="btn btn-outline-success my-2 my-sm-0">Login</router-link>
-            <button v-else @click="doLogout" class="btn btn-outline-success my-2 my-sm-0">Logout</button>
+            <router-link v-else to="/logout" class="btn btn-outline-success my-2 my-sm-0">Logout</router-link>
           </form>
         </div>
       </nav>
@@ -45,6 +45,8 @@
 
 <script>
 import appFooter from "@/components/Footer";
+import { keyCloak } from "./keycloak/keycloak";
+
 export default {
   components: {
     appFooter
@@ -56,7 +58,9 @@ export default {
   },
   methods: {
     doLogout() {
-      this.$store.dispatch("logout");
+      window.location = keyCloak.logoutUrl();
+      //keyCloak.logout();
+      //this.$store.dispatch("logout");
     }
   }
 };
