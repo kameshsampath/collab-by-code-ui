@@ -24,8 +24,8 @@ export default {
     }
     this.$nextTick(() => {
       keyCloak.onAuthSuccess = () => {
-        //console.log("Auth Success");
-        store.commit("saveToken", keyCloak.token);
+        console.log("Auth Success");
+        store.dispatch("saveToken", keyCloak.token);
         vm.$router.push({ name: nextRoute });
       };
 

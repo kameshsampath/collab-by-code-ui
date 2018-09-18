@@ -4,6 +4,6 @@ module.exports = {
     devServer: {
       historyApiFallback: true
     },
-    plugins: [new CopyWebpackPlugin([{ from: "ngnix.conf", to: "ngnix.conf" }])]
+    plugins: [new CopyWebpackPlugin([{ from: "nginx.conf", to: "nginx.conf" }])]
   }
 };

@@ -101,7 +101,7 @@ objects:
         - name: latest
           from:
             kind: DockerImage
-            name: "docker.io/kameshsampath/centos7-s2i-web-app:latest"
+            name: bucharestgold/centos7-s2i-web-app:0.0.2
   # Build the base builder image
   - kind: ImageStream
     apiVersion: v1
@@ -144,7 +144,7 @@ objects:
         sourceStrategy:
           env:
             - name: YARN_ENABLED
-              value: true
+              value: "true"
             - name: NODE_ENV
               value: development
             - name: OUTPUT_DIR
