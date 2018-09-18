@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build && yarn copy-nginx",
+    "copy-nginx": "cp nginx.conf ./dist",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

@@ -143,6 +143,10 @@ objects:
       strategy:
         sourceStrategy:
           env:
+            - name: YARN_ENABLED
+              value: true
+            - name: NODE_ENV
+              value: development
             - name: OUTPUT_DIR
               value: ${OUTPUT_DIR}
             - name: VUE_APP_QUESTIONS_API_URL
