@@ -58,7 +58,7 @@ objects:
       api.questions.uri: ${COLLAB_API_SERVICE_URL}/api/questions
       api.frames.uri: ${COLLAB_API_SERVICE_URL}/api/frames
       api.collaborators.uri: ${COLLAB_API_SERVICE_URL}/api/collaborators
-      api.avatars.uri: ${COLLAB_API_SERVICE_URL}/api/avatars
+      api.avatars.uri: ${COLLAB_API_SERVICE_URL}/avatars
       socket.uri: ${COLLAB_API_SERVICE_URL}
       keycloak.url: ${KEYCLOAK_URL}
       keycloak.realm: ${KEYCLOAK_REALM}
