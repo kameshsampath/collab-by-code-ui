@@ -8,7 +8,9 @@
         </h2>
       </div>
     </div>
-    <home msg="Take the quiz to begin collaborating by code." />
+    <div class="container">
+        <home msg="Take the quiz to begin collaborating by code." />
+    </div>
   </div>
 </template>
 
