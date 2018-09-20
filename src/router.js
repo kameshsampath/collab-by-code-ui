@@ -21,7 +21,16 @@ const routes = [
   {
     path: "/canvas",
     name: "canvas",
-    component: Canvas
+    component: Canvas,
+    beforeEnter(to, from, next) {
+      //console.log("Access Token:", store.getters.accessToken);
+      //console.log("Token Parsed:", JSON.stringify(keyCloak.tokenParsed));
+      if (store.getters.accessToken && keyCloak.tokenParsed) {
+        next();
+      } else {
+        next("/auth/canvas");
+      }
+    }
   },
   {
     path: "/collaborate",

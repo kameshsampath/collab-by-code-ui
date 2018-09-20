@@ -11,8 +11,30 @@
       <textarea class="form-control " id="exampleCode" rows="7" readonly v-model="code"></textarea>
     </div>
     <div class="d-flex align-items-end pb-2 justify-content-end">
-      <button type="button" class="order-1 btn btn-md btn-primary mr-2">Tweet!</button>
-      <button type="button" class="order-2 btn btn-md btn-primary ml-2" @click="saveData()">Collaborate!</button>
+      <button type="button" :class="enableSubmit" data-toggle="modal" data-target="#privacyModal" v-if="validateEmail">Collaborate!</button>
+      <button type="button" :class="enableSubmit" v-else>Collaborate!</button>
+    </div>
+
+    <!-- Modal -->
+    <div class=" modal fade" id="privacyModal" ref="privacyModal" tabindex="-1" role="dialog" aria-labelledby="privacyModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="privacyModalLabel">Privacy Statement</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            By clicking 'collaborate' you are giving Red Hat permission to post your image on the Collaborate by Code canvas. Your contact information will only be used for the purposes of Collaborate by Code. View Red Hat's
+            <a href="https://www.redhat.com/en/about/privacy-policy " target="_blank ">privacy statement</a>.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Disagree</button>
+            <button type="button" class="btn btn-primary" @click="saveData">Agree</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -21,6 +43,7 @@
 import { fabric } from "fabric";
 import { toBlob } from "@/utils/utils";
 import { saveUserResponse } from "@/utils/apiUtils.js";
+const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export default {
   props: ["userResponse"],
   data() {
@@ -37,8 +60,31 @@ export default {
       imgScaleHeight: 512
     };
   },
+  computed: {
+    enableSubmit() {
+      var style = {
+        "order-1": true,
+        btn: true,
+        "btn-md": true,
+        "btn-primary": true,
+        "ml-2": true
+      };
+      if (this.validateEmail) {
+        style["disabled"] = false;
+        return style;
+      } else {
+        style["disabled"] = true;
+        style["btn-secondary"] = true;
+        return style;
+      }
+    },
+    validateEmail() {
+      return EMAIL_REGEX.test(this.email);
+    }
+  },
   methods: {
     saveData() {
+      $(this.$refs.privacyModal).modal("toggle");
       let vm = this;
       let userData = new FormData();
       let imageData = this.canvas.toDataURL({
@@ -62,7 +108,6 @@ export default {
         })
         .catch(err => {
           console.log("Error", err);
-          //TODO show error dialog ??
         });
     },
     renderImageCanvas() {

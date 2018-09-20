@@ -31,7 +31,7 @@ const actions = {
   },
   refreshToken({ commit }, minValidity) {
     keyCloak
-      .updateToken(minValidity || 10)
+      .updateToken(minValidity || 30)
       .then(() => {
         console.log("Refreshed Token Successfully");
         commit("refreshToken");

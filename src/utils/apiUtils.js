@@ -97,7 +97,6 @@ export async function getAvatars() {
     );
     return res;
   } catch (err) {
-    console.error(err);
-    throw err;
+    console.error("Error Saving Response", err);
   }
 }
