@@ -13,6 +13,9 @@
 </template>
 
 <style lang="scss">
+.btn {
+  border-radius: 0rem;
+}
 </style>
 
 
