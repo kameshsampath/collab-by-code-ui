@@ -2,7 +2,7 @@
   <div>
     <h3 class="body_title textBlack">{{msg}}</h3>
     <p class="lead body_content textBlack">
-      Each of your answers to the following questions will generate a fragment of code, which will produce an object unique to you. Click tweet to watch your object get added to our collaborative canvas!
+      You’ll start by taking a photo of yourself, and then answer 3 questions. Each answer will apply a filter to your photo. At the end, you’ll be able to add it to the canvas of photos from all participants. We’ll also email the photo to you so that you can share it on social media.
     </p>
     <p>
       <router-link to="/quiz" class="btn btn-secondary" tag="button">Get started</router-link>
@@ -14,7 +14,7 @@
 export default {
   data: () => {
     return {
-      msg: ""
+      msg: "Take our quiz to begin collaborating by code."
     };
   }
 };
