@@ -71,8 +71,9 @@ const routes = [
     path: "/logout",
     beforeEnter(to, from, next) {
       //console.log("Keycloak Logout URL", keyCloak.logoutUrl());
+      store.dispatch("clearAvatars");
+      //TODO redirect to home page
       keyCloak.logout();
-      //window.location  = keyCloak.logoutUrl();
     }
   }
 ];

@@ -1,5 +1,4 @@
 import { keyCloak } from "../../keycloak/keycloak";
-import { router } from "../../router";
 
 const state = {
   accessToken: null

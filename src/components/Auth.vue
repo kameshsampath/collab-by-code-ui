@@ -17,7 +17,7 @@ export default {
   mounted() {
     const vm = this;
     let nextRoute = vm.$route.params["next"];
-    if (!store.state.accessToken) {
+    if (!store.getters.accessToken) {
       keyCloak.init({
         onLoad: "login-required"
       });

@@ -5,6 +5,7 @@ import auth from "./modules/auth";
 import quiz from "./modules/quiz";
 import photo from "./modules/photo";
 import photoFilter from "./modules/photoFilter";
+import gallery from "./modules/gallery";
 
 Vue.use(Vuex);
 
@@ -17,6 +18,7 @@ export const store = new Vuex.Store({
     auth,
     quiz,
     photo,
-    photoFilter
+    photoFilter,
+    gallery
   }
 });
