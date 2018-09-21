@@ -1,5 +1,11 @@
 <template>
-  <div class="container">
+  <div>
+    <div class="jumbotron">
+      <h4 class="display-3" id="preTitle">powered by Red Hat</h4>
+      <h2>
+        Collaborate <br> by Code
+      </h2>
+    </div>
     <h1>
       <span class="field field--name-title field--type-string field--label-hidden">{{title}}</span>
     </h1>
