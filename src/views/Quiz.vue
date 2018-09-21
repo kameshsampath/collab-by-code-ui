@@ -56,7 +56,7 @@ export default {
 <style lang="scss" scoped>
 .quiz {
   margin-top: 7%;
-  margin-bottom: 10%;
+  margin-bottom: 7%;
 }
 .bg-danger {
   background-color: #a30000 !important;

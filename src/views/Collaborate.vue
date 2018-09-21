@@ -1,18 +1,28 @@
 <template>
-  <div>
+  <div class="container collaborate">
     <!-- TODO Add Info/Error Dialog -->
-    <div id="canvasSizer" ref="canvasSizer">
-      <canvas id="preview" ref="preview"></canvas>
+    <div class="quiz row justify-content-center">
+      <div class="col-8">
+        <div id="canvasSizer" ref="canvasSizer">
+          <canvas id="preview" ref="preview"></canvas>
+        </div>
+      </div>
     </div>
-    <div class="form-group ">
-      <label for="email">Email</label>
-      <input class="form-control" id="email" placeholder="you@example.com" v-model="email" />
-      <label for="exampleCode ">Code</label>
-      <textarea class="form-control " id="exampleCode" rows="7" readonly v-model="code"></textarea>
+    <div class="row justify-content-center">
+      <div class="col-8">
+        <div class="form-group ">
+          <label for="email">Email</label>
+          <input class="form-control" id="email" placeholder="you@example.com" v-model="email" />
+          <label for="exampleCode ">Code</label>
+          <textarea class="form-control " id="exampleCode" rows="7" readonly v-model="code"></textarea>
+        </div>
+      </div>
     </div>
-    <div class="d-flex align-items-end pb-2 justify-content-end">
-      <button type="button" :class="enableSubmit" data-toggle="modal" data-target="#privacyModal" v-if="validateEmail">Collaborate!</button>
-      <button type="button" :class="enableSubmit" v-else>Collaborate!</button>
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <button type="button" :class="enableSubmit" data-toggle="modal" data-target="#privacyModal" v-if="validateEmail">Collaborate!</button>
+        <button type="button" :class="enableSubmit" v-else>Collaborate!</button>
+      </div>
     </div>
 
     <!-- Modal -->
@@ -66,15 +76,14 @@ export default {
         "order-1": true,
         btn: true,
         "btn-md": true,
-        "btn-primary": true,
         "ml-2": true
       };
       if (this.validateEmail) {
         style["disabled"] = false;
+        style["active"] = true;
         return style;
       } else {
         style["disabled"] = true;
-        style["btn-secondary"] = true;
         return style;
       }
     },
@@ -161,4 +170,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.collaborate {
+  margin-top: 7%;
+}
 </style>

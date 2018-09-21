@@ -1,9 +1,11 @@
 <template>
-  <!-- this is part of the bootstrap structure you should have -->
-  <div id="avatarCarousel" ref="avatarCarousel" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner">
-      <gallery v-for="(page,index) in pages" :avatars="page" class="carousel-item active" v-if="index===0" v-bind:key="index" />
-      <gallery :avatars="page" class="carousel-item" v-else />
+  <div class="container-fluid canvas">
+    <!-- this is part of the bootstrap structure you should have -->
+    <div id="avatarCarousel" ref="avatarCarousel" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+        <gallery v-for="(page,index) in pages" :avatars="page" class="carousel-item active" v-if="index===0" v-bind:key="index" />
+        <gallery :avatars="page" class="carousel-item" v-else />
+      </div>
     </div>
   </div>
 </template>
@@ -66,4 +68,7 @@ export default {
 </script>
 
 <style scoped>
+.canvas {
+  margin-top: 7%;
+}
 </style>

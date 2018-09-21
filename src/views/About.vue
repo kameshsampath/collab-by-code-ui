@@ -1,11 +1,19 @@
 <template>
-  <div class="container mt-5">
+  <div class="container about">
     <div class="row">
       <div class="col-8">
         <h4 class="mt-4">Collaborate by Code was created by two Red Hat interns, Fiona and Grace, during their 2018 summer internships in our Boston office. </h4>
         <p class="mt-4">
           We loved what they started, so at the end of the intern program, a team of Red Hatters volunteered to continue developing the application to create what you see today. True to its name, Collaborate by Code has been a very collaborative project and a great open source story. Interested in reviewing or contributing to the code? The project is available on the Red Hat Official GitHub.
         </p>
+        <ul>
+          <li>
+            <a href="https://github.com/RedHatOfficial/collab-by-code-api">Collab by Code API</a>
+          </li>
+          <li>
+            <a href="https://github.com/RedHatOfficial/collab-by-code-ui">Collab by Code UI</a>
+          </li>
+        </ul>
       </div>
       <div class="col-4">
         <div class="card">
@@ -20,3 +28,9 @@
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.about {
+  margin-top: 7%;
+}
+</style>
