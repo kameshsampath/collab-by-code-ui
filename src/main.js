@@ -15,6 +15,9 @@ export const eventBus = new Vue({
     collaborate(userResponse) {
       //console.log("", userResponse);
       this.$emit("collaborate", userResponse);
+    },
+    progress(progressStep) {
+      this.$emit("progress", progressStep);
     }
   }
 });

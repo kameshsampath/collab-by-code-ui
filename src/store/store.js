@@ -10,10 +10,30 @@ import gallery from "./modules/gallery";
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
-  state: {},
-  mutations: {},
-  getters: {},
-  actions: {},
+  state: {
+    progressIndex: 0
+  },
+  mutations: {
+    progress(state, progVal) {
+      state.progressIndex = progVal;
+    },
+    clearProgress(state) {
+      state.progressIndex = 0;
+    }
+  },
+  getters: {
+    progress(state) {
+      return Math.ceil((state.progressIndex / 5) * 100);
+    }
+  },
+  actions: {
+    progress({ commit }, step) {
+      commit("progress", step);
+    },
+    clearProgress({ commit }) {
+      commit("clearProgress");
+    }
+  },
   modules: {
     auth,
     quiz,

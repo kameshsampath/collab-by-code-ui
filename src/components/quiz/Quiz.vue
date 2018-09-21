@@ -1,15 +1,8 @@
 <template>
   <div>
-    <div class="row justify-content-center">
+    <div class="quiz row justify-content-center">
       <div class="col-8">
         <photo-preview :snapshotData="snapshotData"></photo-preview>
-      </div>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-8">
-        <div class="progress">
-          <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
       </div>
     </div>
     <div class="row justify-content-center">
@@ -49,7 +42,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.bg-danger {
-  background-color: #a30000 !important;
-}
 </style>

@@ -1,30 +1,32 @@
 <template>
-  <div class="row">
-    <div class="col-8" v-if="hasQuestions">
-      <div v-if="questions[nextIdx]" class="input-group">
-        <div class="mb-3">
-          <div class="input-group-prepend quiz-question">
-            <span ref="question">{{questions[nextIdx].question}}</span>
-          </div>
-          <div class="form-check quiz-question-opt">
-            <div v-for="(opt) in questions[nextIdx].options" v-bind:key="opt.text">
-              <input type="radio" :id="computedId(opt.index)" class="form-check-input" :value="opt.index" v-model="userChoice" @change="applyFilter()" />
-              <label class="form-check-label quiz-question-opt-label" for="question" :data-question="opt.text">
-                {{opt.text}}
-              </label>
+  <div>
+    <div class="row">
+      <div class="col-12" v-if="hasQuestions">
+        <div v-if="questions[nextIdx]" class="input-group">
+          <div class="mb-3">
+            <div class="input-group-prepend quiz-question">
+              <span ref="question">{{questions[nextIdx].question}}</span>
+            </div>
+            <div class="form-check quiz-question-opt">
+              <div v-for="(opt) in questions[nextIdx].options" v-bind:key="opt.text">
+                <input type="radio" :id="computedId(opt.index)" class="form-check-input" :value="opt.index" v-model="userChoice" @change="applyFilter()" />
+                <label class="form-check-label quiz-question-opt-label" for="question" :data-question="opt.text">
+                  {{opt.text}}
+                </label>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-8">
-      <div class="row justify-content-start">
-        <div class="col col-8">
-          <button :class="prevButtonStyle()" @click="prevQ()">Previous</button>
-        </div>
-        <div class="col col-2">
-          <button :class="nextButtonStyle()" v-if="lblNext === 'Finish'" @click="finish()">{{lblNext}}</button>
-          <button :class="nextButtonStyle()" v-if="lblNext === 'Next'" @click="nextQ()">{{lblNext}}</button>
+      <div class="col-8">
+        <div class="row  justify-content-end">
+          <div class="col col-6">
+            <button :class="prevButtonStyle()" @click="prevQ()">Previous</button>
+          </div>
+          <div class="col col-2">
+            <button :class="nextButtonStyle()" v-if="lblNext === 'Finish'" @click="finish()">{{lblNext}}</button>
+            <button :class="nextButtonStyle()" v-if="lblNext === 'Next'" @click="nextQ()">{{lblNext}}</button>
+          </div>
         </div>
       </div>
     </div>
@@ -54,9 +56,6 @@ export default {
       return this.$store.getters.questions;
     }
   },
-  created() {
-    this.$store.dispatch("fetchQuestions");
-  },
   methods: {
     computedId(id) {
       return `question-${id}`;
@@ -76,6 +75,7 @@ export default {
       };
     },
     finish() {
+      this.$store.dispatch("progress", this.nextIdx + 1);
       this.addToAnswered();
       var selectedFrames = _.map(this.questionAndAnswers, "frame").join("");
       var userResponse = {
@@ -94,9 +94,11 @@ export default {
           this.userChoice = "";
         }
       }
+      this.$store.dispatch("progress", this.nextIdx + 1);
     },
     prevQ() {
       if (this.nextIdx >= 1) {
+        this.$store.dispatch("progress", this.nextIdx);
         this.addToAnswered();
         this.nextIdx--;
         if (this.questionAndAnswers[this.nextIdx]) {
@@ -108,7 +110,7 @@ export default {
       }
     },
     prevButtonStyle() {
-      var style = { btn: true, "btn-primary": true };
+      var style = { btn: true };
       if (this.nextIdx >= 1) {
         style["active"] = true;
         return style;
@@ -117,7 +119,7 @@ export default {
       return style;
     },
     nextButtonStyle() {
-      var style = { btn: true, "btn-primary": true };
+      var style = { btn: true };
       style["active"] = true;
       if (this.nextIdx === this.questions.length - 1) {
         this.lblNext = "Finish";
@@ -130,9 +132,18 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-a.page-link {
-  margin-left: 10px;
-  margin-right: 10px;
+<style lang="scss" scoped>
+.btn {
+  text-transform: none;
+}
+.quiz-question {
+  margin-bottom: 10px;
+  font-size: 18px;
+  line-height: 1.6;
+}
+.quiz-question-opt label {
+  font-size: 15px;
+  line-height: 1.6;
+  margin-top: 3px;
 }
 </style>

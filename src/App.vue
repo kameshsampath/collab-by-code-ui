@@ -151,10 +151,11 @@ button {
   background-color: transparent;
   padding: 8px 40px;
   display: inline-block;
-  &:hover {
-    color: #fff;
-    background-color: #c00;
-  }
+}
+
+button:hover:not(.disabled) {
+  color: #fff;
+  background-color: #c00;
 }
 
 .auth {

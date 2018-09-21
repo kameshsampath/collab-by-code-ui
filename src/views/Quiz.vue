@@ -1,7 +1,16 @@
 <template>
-  <div class="container quiz">
-    <component :is="selectedComponent">
-    </component>
+  <div class="container">
+    <div class="row quiz">
+      <div class="col">
+        <div class="progress" style="height: 40px;">
+          <div class="progress-bar bg-danger" role="progressbar" :style="progressStyle" :aria-valuenow="progress" aria-valuemin="25" aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <component :is="selectedComponent">
+      </component>
+    </div>
   </div>
 </template>
 
@@ -15,15 +24,30 @@ import quiz from "@/components/quiz/Quiz.vue";
 
 export default {
   data() {
-    return { selectedComponent: "photoBooth" };
+    return {
+      selectedComponent: "photoBooth"
+    };
+  },
+  computed: {
+    progress() {
+      return this.$store.getters.progress;
+    },
+    progressStyle() {
+      return {
+        width: this.progress + "%"
+      };
+    }
   },
   components: {
     photoBooth,
     quiz
   },
   mounted() {
+    this.$store.dispatch("fetchQuestions");
+    this.$store.dispatch("clearProgress");
     eventBus.$on("changeComponent", () => {
       this.selectedComponent = "quiz";
+      this.$store.dispatch("progress", 1);
     });
   }
 };
@@ -32,5 +56,9 @@ export default {
 <style lang="scss" scoped>
 .quiz {
   margin-top: 7%;
+  margin-bottom: 10%;
+}
+.bg-danger {
+  background-color: #a30000 !important;
 }
 </style>
