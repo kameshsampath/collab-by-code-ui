@@ -12,7 +12,7 @@
     <div class="content">
       <p>{{msg}}</p>
     </div>
-    <router-link to="/quiz" class="btn btn-secondary" tag="button">Get started</router-link>
+    <router-link to="/quiz" class="btn" tag="button">Get started</router-link>
   </div>
 </template>
 
@@ -29,29 +29,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-button {
-  text-transform: uppercase;
-  text-decoration: none;
-  font-size: 16px;
-  background: #c00;
-  font-weight: 600;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-}
-
-.btn {
-  border: 1px solid #c00;
-  line-height: 1.44;
-  color: #c00;
-  background-color: transparent;
-  padding: 8px 40px;
-  display: inline-block;
-  &:hover {
-    color: #fff;
-    background-color: #c00;
-  }
-}
-
 h1 {
   color: #242424;
   font-size: 23px;

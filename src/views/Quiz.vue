@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container quiz">
     <component :is="selectedComponent">
     </component>
   </div>
@@ -28,3 +28,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.quiz {
+  margin-top: 7%;
+}
+</style>

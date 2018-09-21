@@ -1,6 +1,8 @@
 <template>
   <div class="container">
     <div class="row justify-content-start">
+      <!-- Empty span to make the canvas at center-->
+      <div class="col-2">&nbsp;</div>
       <div class="col-4">
         <video ref="webcam" height="360" width="500" id="webcam" style="display: none">
         </video>
@@ -9,7 +11,7 @@
     </div>
     <div class="row justify-content-center">
       <div class="col-4">
-        <button @click="takeSnapshot()" class="btn btn-primary active">I am looking good!</button>
+        <button @click="takeSnapshot()" class="btn active">I am looking good!</button>
       </div>
     </div>
   </div>
@@ -82,5 +84,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style scoped lang="scss" scoped>
+.btn {
+  text-transform: none;
+}
 </style>

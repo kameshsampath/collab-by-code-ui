@@ -134,15 +134,27 @@ h2 {
   border-radius: 0rem;
 }
 
-a.btn.btn-secondary {
-  padding: 15px 30px;
-  border-radius: 60px;
-  font-family: "Overpass", sans-serif;
-  background-color: #500000;
-  color: white;
-  font-size: 20px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+button {
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 16px;
+  background: #c00;
+  font-weight: 600;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.btn {
+  border: 1px solid #c00;
+  line-height: 1.44;
+  color: #c00;
+  background-color: transparent;
+  padding: 8px 40px;
+  display: inline-block;
+  &:hover {
+    color: #fff;
+    background-color: #c00;
+  }
 }
 
 .auth {
