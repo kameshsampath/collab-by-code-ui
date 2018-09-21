@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <header>
-      <nav id="nav" class="navbar navbar-expand-md navbar-light fixed-top bg-light">
+    <header role="banner">
+      <nav id="nav" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="/">Collaborate by Code</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsDefault" aria-controls="navbarsDefault" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -67,20 +67,17 @@ export default {
 </script>
 
 <style lang="scss">
+body,
 html {
-  position: relative;
-  min-height: 100%;
+  font-size: 100%;
 }
 
-body {
-  padding-top: 3.5rem;
+* {
+  font-family: "Overpass", "Open Sans", "Arial", "Helvetica", "sans-serif";
 }
 
-body {
-  font-size: 16px;
-  line-height: 1.5;
-  font-family: "Overpass", sans-serif;
-  margin-bottom: 60px;
+.bg-dark {
+  background-color: rgba(0, 0, 0, 0.8) !important;
 }
 
 .textBlack {
@@ -101,13 +98,16 @@ h2 {
 
 #nav {
   a {
-    font-weight: normal;
-    color: #000;
+    display: block;
+    text-decoration: none;
+    color: #999;
+    text-transform: uppercase;
+    font-size: 14px;
     &.router-link-exact-active {
-      background-color: lightgrey;
-      border-bottom-color: darkred;
+      color: #fff;
+      border-bottom-color: #c00;
       border-bottom-style: solid;
-      border-bottom-width: 5px;
+      border-bottom-width: 3px;
     }
   }
 }
@@ -122,6 +122,10 @@ h2 {
   font-weight: 300;
 }
 
+.btn {
+  border-radius: 0rem;
+}
+
 a.btn.btn-secondary {
   padding: 15px 30px;
   border-radius: 60px;
@@ -131,9 +135,5 @@ a.btn.btn-secondary {
   font-size: 20px;
   margin-top: 20px;
   margin-bottom: 20px;
-}
-
-.btn:hover {
-  background-color: #5c3e84;
 }
 </style>

@@ -8,11 +8,13 @@
         </h2>
       </div>
     </div>
-    <home msg="Take the quiz to begin collaborating by code." />
+    <div class="container">
+      <home/>
+    </div>
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 </style>
 
 

@@ -1,14 +1,14 @@
 <template>
   <div class="container">
-    <div class="row align-items-center">
-      <div class="col">
+    <div class="row justify-content-start">
+      <div class="col-4">
         <video ref="webcam" height="360" width="500" id="webcam" style="display: none">
         </video>
         <canvas id="c" width="1024" height="512"></canvas>
       </div>
     </div>
-    <div class="row align-items-center">
-      <div class="col">
+    <div class="row justify-content-center">
+      <div class="col-4">
         <button @click="takeSnapshot()" class="btn btn-primary active">I am looking good!</button>
       </div>
     </div>

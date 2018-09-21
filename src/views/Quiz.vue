@@ -1,9 +1,7 @@
 <template>
-  <div class="quiz">
-    <div class="container">
-      <component :is="selectedComponent">
-      </component>
-    </div>
+  <div>
+    <component :is="selectedComponent">
+    </component>
   </div>
 </template>
 

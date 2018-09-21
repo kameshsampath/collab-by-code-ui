@@ -1,7 +1,22 @@
 <template>
-  <div>
-    <photo-preview :snapshotData="snapshotData"></photo-preview>
-    <question-options/>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-8">
+        <photo-preview :snapshotData="snapshotData"></photo-preview>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-8">
+        <div class="progress">
+          <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-8">
+        <question-options/>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -34,13 +49,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.question {
-  border: 1px solid teal;
-}
-#preview {
-  border: 2px black;
-}
-.qpanel {
-  padding: 20px;
+.bg-danger {
+  background-color: #a30000 !important;
 }
 </style>

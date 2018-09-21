@@ -1,30 +1,32 @@
 <template>
-  <div class="qopts" v-if="hasQuestions">
-    <div v-if="questions[nextIdx]" class="input-group">
-      <div class="mb-3">
-        <div class="input-group-prepend quiz-question">
-          <span ref="question">{{questions[nextIdx].question}}</span>
-        </div>
-        <div class="form-check quiz-question-opt">
-          <div v-for="(opt) in questions[nextIdx].options" v-bind:key="opt.text">
-            <input type="radio" :id="computedId(opt.index)" class="form-check-input" :value="opt.index" v-model="userChoice" @change="applyFilter()" />
-            <label class="form-check-label quiz-question-opt-label" for="question" :data-question="opt.text">
-              {{opt.text}}
-            </label>
+  <div class="row">
+    <div class="col-8" v-if="hasQuestions">
+      <div v-if="questions[nextIdx]" class="input-group">
+        <div class="mb-3">
+          <div class="input-group-prepend quiz-question">
+            <span ref="question">{{questions[nextIdx].question}}</span>
+          </div>
+          <div class="form-check quiz-question-opt">
+            <div v-for="(opt) in questions[nextIdx].options" v-bind:key="opt.text">
+              <input type="radio" :id="computedId(opt.index)" class="form-check-input" :value="opt.index" v-model="userChoice" @change="applyFilter()" />
+              <label class="form-check-label quiz-question-opt-label" for="question" :data-question="opt.text">
+                {{opt.text}}
+              </label>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="traverse-buttons">
-      <ul class="pagination pagination-md justify-content-center">
-        <li :class="prevButtonStyle()">
-          <a class="page-link" href="#" @click="prevQ()" aria-label="Previous">Previous</a>
-        </li>
-        <li :class="nextButtonStyle()">
-          <a class="page-link" href="#" v-if="lblNext === 'Finish'" @click="finish()" :aria-label="lblNext">{{lblNext}}</a>
-          <a class="page-link" href="#" v-if="lblNext === 'Next'" @click="nextQ()" :aria-label="lblNext">{{lblNext}}</a>
-        </li>
-      </ul>
+    <div class="col-8">
+      <div class="row justify-content-start">
+        <div class="col col-8">
+          <button :class="prevButtonStyle()" @click="prevQ()">Previous</button>
+        </div>
+        <div class="col col-2">
+          <button :class="nextButtonStyle()" v-if="lblNext === 'Finish'" @click="finish()">{{lblNext}}</button>
+          <button :class="nextButtonStyle()" v-if="lblNext === 'Next'" @click="nextQ()">{{lblNext}}</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -106,7 +108,7 @@ export default {
       }
     },
     prevButtonStyle() {
-      var style = { "page-item": true };
+      var style = { btn: true, "btn-primary": true };
       if (this.nextIdx >= 1) {
         style["active"] = true;
         return style;
@@ -115,7 +117,7 @@ export default {
       return style;
     },
     nextButtonStyle() {
-      var style = { "page-item": true };
+      var style = { btn: true, "btn-primary": true };
       style["active"] = true;
       if (this.nextIdx === this.questions.length - 1) {
         this.lblNext = "Finish";
@@ -129,12 +131,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.quiz-question-opt {
-  padding-left: 30px;
-}
-.quiz-question-opt-label {
-  text-align: center;
-}
 a.page-link {
   margin-left: 10px;
   margin-right: 10px;
