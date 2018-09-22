@@ -1,14 +1,15 @@
 <template>
-  <div class="d-flex">
-    <appHeader role="header" class="flex-fill" />
+  <flex>
+    <appHeader role="header" />
     <main role="main" class="py-3 flex-fill">
       <router-view/>
     </main>
-    <appFooter class="flex-fill" />
-  </div>
+    <appFooter/>
+  </flex>
 </template>
 
 <script>
+import flex from "@/components/Flex";
 import appHeader from "@/components/Header";
 import appFooter from "@/components/Footer";
 import { keyCloak } from "./keycloak/keycloak";
@@ -16,7 +17,8 @@ import { keyCloak } from "./keycloak/keycloak";
 export default {
   components: {
     appHeader,
-    appFooter
+    appFooter,
+    flex
   }
 };
 </script>
