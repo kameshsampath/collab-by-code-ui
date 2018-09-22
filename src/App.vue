@@ -1,10 +1,10 @@
 <template>
-  <div class="d-flex flex-column">
-    <appHeader role="header" />
-    <main role="main" class="container-fluid py-3 flex-fill">
+  <div class="d-flex">
+    <appHeader role="header" class="flex-fill" />
+    <main role="main" class="py-3 flex-fill">
       <router-view/>
     </main>
-    <appFooter role="footer" class="container-fluid" />
+    <appFooter class="flex-fill" />
   </div>
 </template>
 
@@ -22,11 +22,6 @@ export default {
 </script>
 
 <style lang="scss">
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 * {
   font-family: "Overpass", "Open Sans", "Arial", "Helvetica", "sans-serif";
 }
