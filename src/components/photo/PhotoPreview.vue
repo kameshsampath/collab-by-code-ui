@@ -14,7 +14,7 @@ export default {
   data() {
     return {
       canvas: {},
-      imgLeft: -10,
+      imgLeft: 40,
       imgTop: 0,
       imgAngle: 0,
       imgSelectable: false,
@@ -39,7 +39,7 @@ export default {
           height: vm.imgScaleHeight,
           containerClassName: "preview",
           preserveObjectStacking: true,
-          originX: "left",
+          originX: "center",
           originY: "center"
         });
 
@@ -100,13 +100,14 @@ export default {
       var f = _.find(vm.frames, { id: frame });
       fabric.Image.fromURL(`/frames/${f.filename}`, img => {
         img.set({
-          left: 20,
+          left: 15,
           top: 0,
           angle: 0,
           selectable: false,
           hoverCursor: "default"
         });
-        img.scaleToHeight(vm.imgCurrentHeight * 0.8);
+        img.scaleToWidth(vm.imgCurrentWidth * 0.75);
+        //img.scaleToHeight(vm.imgCurrentHeight * 0.8);
         const currLayerImg = vm.canvas.getObjects()[vm.layerIndex];
         if (currLayerImg) {
           vm.canvas.remove(currLayerImg);

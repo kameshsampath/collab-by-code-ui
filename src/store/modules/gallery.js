@@ -3,7 +3,7 @@ import { getAvatars } from "@/utils/apiUtils";
 
 const state = {
   avatars: [],
-  pageSize: 10,
+  pageSize: 25,
   pages: []
 };
 

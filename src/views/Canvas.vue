@@ -69,6 +69,5 @@ export default {
 
 <style scoped>
 .canvas {
-  margin-top: 7%;
 }
 </style>

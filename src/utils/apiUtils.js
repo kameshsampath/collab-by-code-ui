@@ -13,6 +13,11 @@ if ("development" === process.env.NODE_ENV) {
 
 //TODO set it globally
 
+function showError(title, message) {
+  //console.error(JSON.stringify(errMsg));
+  store.dispatch("messages", { title, message });
+}
+
 export async function getQuestions() {
   try {
     const url =
@@ -26,7 +31,13 @@ export async function getQuestions() {
     });
     return res.data;
   } catch (error) {
-    console.error(error);
+    //console.log(error);
+    const errMsg = {
+      statusCode: error.response.status,
+      statusText: error.response.statusText,
+      message: error.response.data
+    };
+    showError("Questions", errMsg);
   }
 }
 
@@ -43,7 +54,13 @@ export async function getFrames() {
     });
     return res.data;
   } catch (error) {
-    console.error(error);
+    //console.log(error);
+    const errMsg = {
+      statusCode: error.response.status,
+      statusText: error.response.statusText,
+      message: error.response.data
+    };
+    showError("Frames", errMsg);
   }
 }
 
@@ -60,7 +77,13 @@ export async function getFrame(id) {
     });
     return res.data;
   } catch (error) {
-    console.error(error);
+    //console.log(error);
+    const errMsg = {
+      statusCode: error.response.status,
+      statusText: error.response.statusText,
+      message: error.response.data
+    };
+    showError("Frames", errMsg);
   }
 }
 
@@ -78,9 +101,14 @@ export async function saveUserResponse(fromData) {
       }
     );
     return res;
-  } catch (err) {
-    console.error(err);
-    throw err;
+  } catch (error) {
+    //console.log(error);
+    const errMsg = {
+      statusCode: error.response.status,
+      statusText: error.response.statusText,
+      message: error.response.data
+    };
+    showError("Save Avatar", errMsg);
   }
 }
 
@@ -96,7 +124,13 @@ export async function getAvatars() {
       }
     );
     return res;
-  } catch (err) {
-    console.error("Error Saving Response", err);
+  } catch (error) {
+    //console.log(error);
+    const errMsg = {
+      statusCode: error.response.status,
+      statusText: error.response.statusText,
+      message: error.response.data
+    };
+    showError("Avatars", errMsg);
   }
 }

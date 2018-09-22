@@ -31,6 +31,5 @@
 
 <style lang="scss" scoped>
 .about {
-  margin-top: 7%;
 }
 </style>

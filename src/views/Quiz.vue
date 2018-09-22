@@ -7,6 +7,7 @@
         </div>
       </div>
     </div>
+    <appMessages/>
     <div class="row">
       <component :is="selectedComponent">
       </component>
@@ -20,6 +21,7 @@ import { eventBus } from "@/main";
 
 // Components
 import photoBooth from "@/components/photo/PhotoBooth.vue";
+import appMessages from "@/components/AppMessages.vue";
 import quiz from "@/components/quiz/Quiz.vue";
 
 export default {
@@ -40,7 +42,8 @@ export default {
   },
   components: {
     photoBooth,
-    quiz
+    quiz,
+    appMessages
   },
   mounted() {
     this.$store.dispatch("fetchQuestions");
@@ -55,7 +58,6 @@ export default {
 
 <style lang="scss" scoped>
 .quiz {
-  margin-top: 7%;
   margin-bottom: 7%;
 }
 .bg-danger {

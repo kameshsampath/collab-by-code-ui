@@ -2,15 +2,16 @@
   <div class="container">
     <div class="row justify-content-start">
       <!-- Empty span to make the canvas at center-->
-      <div class="col-2">&nbsp;</div>
-      <div class="col-4">
+      <div class="col-4">&nbsp;</div>
+      <div class="col-5">
         <video ref="webcam" height="360" width="500" id="webcam" style="display: none">
         </video>
         <canvas id="c" width="1024" height="512"></canvas>
       </div>
     </div>
     <div class="row justify-content-center">
-      <div class="col-4">
+      <div class="col-4">&nbsp;</div>
+      <div class="col-7">
         <button @click="takeSnapshot()" class="btn active">I am looking good!</button>
       </div>
     </div>
@@ -60,8 +61,7 @@ export default {
     this.webcam = new fabric.Image(webcamEl, {
       left: 300,
       top: 200,
-      angle: 360,
-      originX: "center",
+      originX: "right",
       originY: "center"
     });
     // adding webcam video element

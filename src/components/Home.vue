@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="jumbotron">
-      <h4 class="display-3" id="preTitle">powered by Red Hat</h4>
+      <h4 id="preTitle" class="display-3">powered by Red Hat</h4>
       <h2>
         Collaborate <br> by Code
       </h2>
@@ -29,6 +29,18 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+#preTitle {
+  color: black;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.jumbotron {
+  background-color: #c50001;
+  background-image: url(../assets/img/shapes.svg);
+  background-size: 65%;
+}
+
 h1 {
   color: #242424;
   font-size: 23px;
@@ -43,7 +55,6 @@ h1 {
 }
 
 .content p {
-  margin-top: 0;
   font-size: 15px;
   line-height: 1.6;
 }

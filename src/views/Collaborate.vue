@@ -40,7 +40,7 @@
             <a href="https://www.redhat.com/en/about/privacy-policy " target="_blank ">privacy statement</a>.
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Disagree</button>
+            <button type="button" class="btn btn-secondary mr-2" data-dismiss="modal">Disagree</button>
             <button type="button" class="btn btn-primary" @click="saveData">Agree</button>
           </div>
         </div>

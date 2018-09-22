@@ -6,6 +6,7 @@ import quiz from "./modules/quiz";
 import photo from "./modules/photo";
 import photoFilter from "./modules/photoFilter";
 import gallery from "./modules/gallery";
+import appMessages from "./modules/appMessages";
 
 Vue.use(Vuex);
 
@@ -39,6 +40,7 @@ export const store = new Vuex.Store({
     quiz,
     photo,
     photoFilter,
-    gallery
+    gallery,
+    appMessages
   }
 });
