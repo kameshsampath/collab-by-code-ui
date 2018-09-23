@@ -59,6 +59,7 @@ objects:
       api.frames.uri: ${COLLAB_API_SERVICE_URL}/api/frames
       api.collaborators.uri: ${COLLAB_API_SERVICE_URL}/api/collaborators
       api.avatars.uri: ${COLLAB_API_SERVICE_URL}/avatars
+      api.gist.uri: ${COLLAB_API_SERVICE_URL}/api/gist
       socket.uri: ${COLLAB_API_SERVICE_URL}
       keycloak.url: ${KEYCLOAK_URL}
       keycloak.realm: ${KEYCLOAK_REALM}
@@ -174,6 +175,11 @@ objects:
                 configMapKeyRef:
                   name: collab-by-code-ui
                   key: socket.uri
+            - name: VUE_APP_GIST_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: collab-by-code-ui
+                  key: api.gist.uri
             - name: VUE_APP_KEYCLOAK_URL
               valueFrom:
                 configMapKeyRef:

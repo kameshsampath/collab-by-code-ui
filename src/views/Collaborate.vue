@@ -1,5 +1,5 @@
 <template>
-  <div class="container collaborate">
+  <div class="container-fluid collaborate">
     <!-- TODO Add Info/Error Dialog -->
     <div class="quiz row justify-content-center">
       <div class="col-8">
@@ -13,8 +13,7 @@
         <div class="form-group ">
           <label for="email">Email</label>
           <input class="form-control" id="email" placeholder="you@example.com" v-model="email" />
-          <label for="exampleCode ">Code</label>
-          <textarea class="form-control " id="exampleCode" rows="7" readonly v-model="code"></textarea>
+          <github-gist :gistId="gistId" />
         </div>
       </div>
     </div>
@@ -24,7 +23,6 @@
         <button type="button" :class="enableSubmit" v-else>Collaborate!</button>
       </div>
     </div>
-
     <!-- Modal -->
     <div class=" modal fade" id="privacyModal" ref="privacyModal" tabindex="-1" role="dialog" aria-labelledby="privacyModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -54,12 +52,13 @@ import { fabric } from "fabric";
 import { toBlob } from "@/utils/utils";
 import { saveUserResponse } from "@/utils/apiUtils.js";
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+import githubGist from "@/components/GitHubGist.vue";
 export default {
   props: ["userResponse"],
   data() {
     return {
       email: "",
-      code: "",
+      gistId: "8bf31b108449db1bba43d7c090db465b",
       canvas: {},
       imgLeft: 0,
       imgTop: 0,
@@ -69,6 +68,9 @@ export default {
       imgScaleWidth: 1024,
       imgScaleHeight: 512
     };
+  },
+  components: {
+    githubGist
   },
   computed: {
     enableSubmit() {
@@ -171,6 +173,5 @@ export default {
 
 <style lang="scss" scoped>
 .collaborate {
-  margin-top: 7%;
 }
 </style>

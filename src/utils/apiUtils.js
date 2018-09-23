@@ -18,6 +18,23 @@ function showError(title, message) {
   store.dispatch("messages", { title, message });
 }
 
+export async function getGist(gistId) {
+  try {
+    const url =
+      `${process.env.VUE_APP_GIST_URL}/${gistId}` ||
+      "http://myapi.example.com/api/gist";
+    await store.dispatch("refreshToken");
+    const res = await instance.get(url, {
+      headers: {
+        Authorization: `Bearer ${store.getters.accessToken}`
+      }
+    });
+    return res;
+  } catch (error) {
+    console.log("Error getting gist", error);
+  }
+}
+
 export async function getQuestions() {
   try {
     const url =
