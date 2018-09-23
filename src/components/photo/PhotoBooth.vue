@@ -1,17 +1,16 @@
 <template>
-  <div class="container">
-    <div class="row justify-content-start">
-      <!-- Empty span to make the canvas at center-->
-      <div class="col-4">&nbsp;</div>
-      <div class="col-5">
-        <video ref="webcam" height="360" width="500" id="webcam" style="display: none">
+  <div class="contanier">
+    <div class="row">
+      <div class="col-2">&nbsp;</div>
+      <div class="col-4">
+        <video ref="webcam" width="500" height="500" id="webcam" style="display: none">
         </video>
         <canvas id="c" width="1024" height="512"></canvas>
       </div>
     </div>
     <div class="row justify-content-center">
-      <div class="col-4">&nbsp;</div>
-      <div class="col-7">
+      <div class="col-2">&nbsp;</div>
+      <div class="col-6">
         <button @click="takeSnapshot()" class="btn active">I am looking good!</button>
       </div>
     </div>
@@ -61,8 +60,11 @@ export default {
     this.webcam = new fabric.Image(webcamEl, {
       left: 300,
       top: 200,
-      originX: "right",
-      originY: "center"
+      angle: -180,
+      originX: "center",
+      originY: "center",
+      flipY: true,
+      selectable: false
     });
     // adding webcam video element
     var vm = this;
@@ -86,5 +88,9 @@ export default {
 <style  lang="scss" scoped>
 .btn {
   text-transform: none;
+}
+#c {
+  position: relative;
+  overflow: hidden;
 }
 </style>

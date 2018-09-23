@@ -8,7 +8,7 @@
       </div>
     </div>
     <appMessages/>
-    <div class="row">
+    <div class="row justify-content-center">
       <component :is="selectedComponent">
       </component>
     </div>
