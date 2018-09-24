@@ -4,3 +4,7 @@ body {
   min-width: 100vw;
   display: flex;
 }
+
+body {
+  margin-bottom: 150px;
+}

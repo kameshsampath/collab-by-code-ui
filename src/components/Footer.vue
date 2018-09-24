@@ -24,7 +24,10 @@
 
 <style lang="scss" scoped>
 footer {
-  display: block;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 .powered-by-openshift-online {
